@@ -1,0 +1,16 @@
+{
+  "name": "@mediverse/config",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "tsconfig.base.json",
+    "eslint-preset.js",
+    "prettier.config.js"
+  ],
+  "scripts": {
+    "build": "echo 'config: no build needed'",
+    "lint": "echo 'config: no lint'",
+    "typecheck": "echo 'config: no typecheck'",
+    "test": "echo 'config: no tests'"
+  }
+}

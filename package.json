@@ -1,0 +1,22 @@
+{
+  "name": "mediverse",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "db:generate": "pnpm --filter @mediverse/db db:generate",
+    "db:migrate": "pnpm --filter @mediverse/db db:migrate",
+    "db:push": "pnpm --filter @mediverse/db db:push",
+    "db:seed": "pnpm --filter @mediverse/db db:seed",
+    "db:studio": "pnpm --filter @mediverse/db db:studio"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.0",
+    "turbo": "^2.4.0"
+  }
+}

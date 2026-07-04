@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MedStudy OS - Exam Module</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#dee4e0",
+                    "tertiary-fixed-dim": "#ffb4a1",
+                    "surface-container": "#e9efec",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2b3230",
+                    "surface-container-high": "#e3eae6",
+                    "surface-dim": "#d5dbd8",
+                    "on-tertiary-container": "#5a1503",
+                    "surface-card": "#FFFFFF",
+                    "on-primary-container": "#00352c",
+                    "success": "#0FA891",
+                    "error-container": "#ffdad6",
+                    "outline": "#6c7a76",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#006b5b",
+                    "text-primary": "#1A2420",
+                    "primary-fixed": "#7bf8dd",
+                    "on-secondary-container": "#007260",
+                    "tertiary": "#9a442d",
+                    "primary-fixed-dim": "#5cdbc2",
+                    "on-primary-fixed": "#00201a",
+                    "secondary": "#006b5b",
+                    "inverse-on-surface": "#ecf2ef",
+                    "text-secondary": "#6B7671",
+                    "on-tertiary-fixed-variant": "#7c2d18",
+                    "on-primary-fixed-variant": "#005144",
+                    "warning": "#F5A623",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#f5fbf7",
+                    "on-tertiary-fixed": "#3c0800",
+                    "tertiary-fixed": "#ffdbd2",
+                    "tertiary-container": "#df795e",
+                    "primary-container": "#0fa891",
+                    "primary": "#006b5b",
+                    "on-surface-variant": "#3d4946",
+                    "background-primary": "#F7F8F7",
+                    "outline-variant": "#bccac4",
+                    "on-error-container": "#93000a",
+                    "border-subtle": "#E6E9E7",
+                    "on-background": "#171d1b",
+                    "error": "#E5484D",
+                    "inverse-primary": "#5cdbc2",
+                    "secondary-container": "#98f4dd",
+                    "secondary-fixed-dim": "#7cd7c1",
+                    "on-surface": "#171d1b",
+                    "secondary-fixed": "#98f4dd",
+                    "surface-container-highest": "#dee4e0",
+                    "background": "#f5fbf7",
+                    "on-secondary-fixed": "#00201a",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#eff5f1",
+                    "surface": "#f5fbf7",
+                    "on-secondary-fixed-variant": "#005144"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "tap-target-min": "48px",
+                    "gutter": "12px",
+                    "container-margin": "16px",
+                    "baseline": "4px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "stats-mono": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "stats-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="bg-background w-full top-0 sticky z-40 border-b border-border-subtle">
+<div class="flex items-center justify-between px-container-margin h-tap-target-min w-full max-w-[1024px] mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="clinical_notes">clinical_notes</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Q 8 / 30</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-text-secondary" data-icon="timer">timer</span>
+<span class="font-stats-mono text-stats-mono text-text-primary">12:44</span>
+<span class="material-symbols-outlined text-primary" data-icon="smart_toy">smart_toy</span>
+</div>
+</div>
+<!-- Emerald Progress Bar -->
+<div class="w-full h-1 bg-surface-container">
+<div class="h-full bg-primary w-[26.6%] transition-all duration-500"></div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-[1024px] mx-auto px-container-margin py-6 pb-32">
+<!-- Clinical Vignette -->
+<section class="mb-8">
+<div class="flex items-center gap-2 mb-4">
+<span class="px-2 py-0.5 bg-surface-container-high rounded text-label-caps font-label-caps text-on-surface-variant uppercase tracking-wider">Internal Medicine</span>
+<span class="px-2 py-0.5 border border-primary/20 text-primary rounded text-label-caps font-label-caps uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] filled-icon" data-icon="auto_awesome">auto_awesome</span>
+                    AI Insight
+                </span>
+</div>
+<h1 class="font-headline-md text-headline-md text-text-primary mb-4">
+                A 64-year-old male presents with acute onset of severe substernal chest pain radiating to the left jaw. History includes hypertension and chronic kidney disease.
+            </h1>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                Physical examination reveals a new S4 gallop and pulmonary crackles. Electrocardiogram demonstrates ST-segment elevation in leads V2-V4. Laboratory results show a serum creatinine of 2.1 mg/dL. Which of the following is the most appropriate next step in pharmacological management, considering his renal status?
+            </p>
+</section>
+<!-- Options Container -->
+<div class="space-y-3 mb-8">
+<!-- Option A (Standard) -->
+<button class="w-full flex items-center text-left p-4 rounded-xl border border-border-subtle bg-surface-container-lowest hover:bg-surface-container-low transition-all active:scale-[0.98] min-h-[56px]">
+<div class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center mr-4 shrink-0 font-stats-mono text-stats-mono">A</div>
+<span class="font-body-md text-body-md text-text-primary">High-dose unfractionated heparin bolus</span>
+</button>
+<!-- Option B (Selected & Correct) -->
+<button class="w-full flex items-center text-left p-4 rounded-xl border-2 border-primary bg-primary/5 transition-all active:scale-[0.98] min-h-[56px]">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center mr-4 shrink-0">
+<span class="material-symbols-outlined text-on-primary text-[20px]" data-icon="check">check</span>
+</div>
+<div class="flex-1">
+<span class="font-body-md text-body-md text-text-primary font-semibold">Weight-adjusted Enoxaparin (0.75 mg/kg)</span>
+<span class="block text-label-caps font-label-caps text-primary mt-0.5">Correct Answer</span>
+</div>
+</button>
+<!-- Option C (Incorrect Selection) -->
+<button class="w-full flex items-center text-left p-4 rounded-xl border-2 border-error bg-error/5 transition-all active:scale-[0.98] min-h-[56px]">
+<div class="w-8 h-8 rounded-full bg-error flex items-center justify-center mr-4 shrink-0">
+<span class="material-symbols-outlined text-on-error text-[20px]" data-icon="close">close</span>
+</div>
+<div class="flex-1">
+<span class="font-body-md text-body-md text-text-primary">Standard Fondaparinux regimen</span>
+<span class="block text-label-caps font-label-caps text-error mt-0.5">Your Choice</span>
+</div>
+</button>
+<!-- Option D (Standard) -->
+<button class="w-full flex items-center text-left p-4 rounded-xl border border-border-subtle bg-surface-container-lowest hover:bg-surface-container-low transition-all active:scale-[0.98] min-h-[56px]">
+<div class="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center mr-4 shrink-0 font-stats-mono text-stats-mono">D</div>
+<span class="font-body-md text-body-md text-text-primary">Eptifibatide infusion alone</span>
+</button>
+</div>
+<!-- Explanation Section -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden border border-border-subtle mb-8">
+<button class="w-full px-4 py-3 flex items-center justify-between bg-surface-container-high/50" onclick="toggleExplanation()">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary filled-icon" data-icon="lightbulb">lightbulb</span>
+<span class="font-headline-sm text-headline-sm text-text-primary">Explanation</span>
+</div>
+<span class="material-symbols-outlined transition-transform duration-300 rotate-180" data-icon="expand_more" id="chevron">expand_more</span>
+</button>
+<div class="p-4 space-y-4" id="explanation-content">
+<div class="relative">
+<div class="absolute -top-1 -right-1">
+<span class="flex items-center gap-1 bg-primary text-on-primary px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">AI</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        The patient is experiencing an <strong class="text-text-primary">Anterior STEMI</strong> with concurrent Stage 3 Chronic Kidney Disease (CrCl ~35 mL/min). 
+                    </p>
+</div>
+<div class="p-3 bg-surface-container-lowest border-l-4 border-primary rounded-r">
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">
+                        "For patients with creatinine clearance < 30 mL/min, the dose of enoxaparin should be adjusted or unfractionated heparin should be used. However, in this clinical threshold (35 mL/min), weight-adjusted therapy remains the standard of care to avoid over-anticoagulation."
+                    </p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="aspect-video bg-cover bg-center rounded-lg border border-outline-variant" data-alt="A clinical high-resolution medical illustration of an ECG strip showing ST-segment elevation in leads V2 through V4. The style is clean, academic, and clinical, with sharp black lines on a light-grid background, typical of a professional medical board examination. The lighting is even and flat, emphasizing technical clarity and precision." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBYPtVfbrP4hUFERwGkITnZgA1PfZmYDWuoje7I3SJ2L6-zVf9t8YnoJ3fuhJdcGtQPgePeKslnIWj7oO9krkjdSYoLaLLWLzWnSKkXlHibtXlZI8gPIrmcXfdznuQFC6w1c4KqOiZ2XBJyHtsEBB9orA8XRV67QqZyeyn1jfmhk8a6svYwYihz2YrqiFJwXiXhX2z34fG6DTkn8Cz9zaaTqeqOh8qH8WWqk-YNItd8TDJDlVNQKne_WV45n9dXXmXyrhCsrWT-hmk')"></div>
+<div class="aspect-video bg-cover bg-center rounded-lg border border-outline-variant" data-alt="A professional medical diagram showing the pharmacological mechanism of low molecular weight heparin in the renal system. The visual style is clean, corporate-modern, using a palette of clinical emerald, soft greys, and white. The illustration is technical and simplified for rapid medical comprehension, with soft ambient shadows and high-contrast labels." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCUWVXgV_P3sjvWzRAqztJSfQmZvtrQXRLxv-uXxp0ig4wBlMHIftr4YgjKfIpQB9KxxQFHgLDo4hsDy-wqXiBYPhCK8BTy-pODWboQFpup94jLmEtj4zc0iO7SyumTZLqLI_yX2dlRkA9WbXr3AoRar7OGUl3zGcYJhpNF_hpw8hTHl57OPCzxZvTC_0lVbNxjWxtj4qNNP0OudK3l9lUqwsUccex5RnFu9-twxB1skk4MbIPO9NliG4BMAJp1gGdItulEgGFmQZg')"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Actions & Info Shell -->
+<footer class="fixed bottom-0 w-full z-50 bg-surface-container-lowest border-t border-border-subtle shadow-sm pb-safe">
+<div class="max-w-[1024px] mx-auto px-container-margin py-3 space-y-3">
+<!-- Weak Area Indicator -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-full">
+<span class="material-symbols-outlined text-[18px]" data-icon="report_problem">report_problem</span>
+<span class="font-label-caps text-label-caps uppercase">Pharmacology 54% (Weak Area)</span>
+</div>
+<button class="p-2 text-text-secondary hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+<!-- Main CTA -->
+<div class="flex gap-3">
+<button class="flex-1 h-tap-target-min bg-primary hover:bg-on-primary-container text-on-primary font-headline-sm text-headline-sm rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.97]">
+<span>Next Question</span>
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</footer>
+<script>
+        function toggleExplanation() {
+            const content = document.getElementById('explanation-content');
+            const chevron = document.getElementById('chevron');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                chevron.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                chevron.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Initialize state
+        document.addEventListener('DOMContentLoaded', () => {
+            // Uncomment the next line if you want explanation hidden by default
+            // document.getElementById('explanation-content').classList.add('hidden');
+            // document.getElementById('chevron').style.transform = 'rotate(0deg)';
+        });
+    </script>
+</body></html>
