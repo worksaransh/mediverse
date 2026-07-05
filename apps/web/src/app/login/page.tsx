@@ -54,6 +54,7 @@ export default function LoginPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to verify OTP");
 
+      router.refresh();
       if (data.onboardingCompleted) {
         router.push("/dashboard");
       } else {
@@ -90,6 +91,7 @@ export default function LoginPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Google login failed");
 
+      router.refresh();
       if (data.onboardingCompleted) {
         router.push("/dashboard");
       } else {
