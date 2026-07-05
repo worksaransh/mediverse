@@ -10,11 +10,16 @@ export default function LoginPage() {
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [consent, setConsent] = useState(false);
 
   async function handleSendOtp(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     if (!phone) return;
+    if (!consent) {
+      setError("Under the India DPDP Act 2023, you must consent to the Privacy Policy and Terms of Service to continue.");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -63,6 +68,10 @@ export default function LoginPage() {
 
   async function handleGoogleLogin() {
     setError(null);
+    if (!consent) {
+      setError("Under the India DPDP Act 2023, you must consent to the Privacy Policy and Terms of Service to continue.");
+      return;
+    }
     setLoading(true);
     try {
       // Simulate Google OAuth response
@@ -119,6 +128,21 @@ export default function LoginPage() {
             {error}
           </div>
         )}
+
+        <div className="flex items-start gap-3 mb-6 p-4 bg-[#1b211f] border border-[#3d4946] rounded-xl">
+          <input
+            id="consent-checkbox"
+            type="checkbox"
+            checked={consent}
+            onChange={(e) => setConsent(e.target.checked)}
+            className="mt-1 accent-[#5cdbc2] rounded border-[#3d4946] focus:ring-0 focus:outline-none cursor-pointer"
+          />
+          <span className="text-xs text-[#bccac4] leading-relaxed">
+            I provide explicit consent under the India DPDP Act 2023 for Mediverse to collect, process, and retain my phone, email, and clinical learning profile as detailed in the{" "}
+            <a href="/privacy" className="text-[#5cdbc2] hover:underline" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and{" "}
+            <a href="/terms" className="text-[#5cdbc2] hover:underline" target="_blank" rel="noopener noreferrer">Terms of Service</a>.
+          </span>
+        </div>
 
         {step === "phone" ? (
           <form onSubmit={handleSendOtp} className="space-y-6">

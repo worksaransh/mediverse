@@ -114,6 +114,12 @@ export default function AIMentorPage() {
         </div>
       </header>
 
+      {/* Safety Disclaimer Banner */}
+      <div className="bg-[#1f2724] border-b border-[#3d4946]/50 px-6 py-3 text-xs text-[#bccac4] flex items-center justify-center gap-2">
+        <span className="text-amber-500 font-bold">⚠️ Medical Disclaimer:</span>
+        <span>Mediverse AI Mentor is an educational study assistant. Responses are AI-generated and may contain errors. It is not medical advice or a substitute for professional clinical judgment.</span>
+      </div>
+
       {/* Main Chat Pane */}
       <main className="flex-1 w-full max-w-[800px] mx-auto flex flex-col p-4 md:p-6 overflow-hidden">
         

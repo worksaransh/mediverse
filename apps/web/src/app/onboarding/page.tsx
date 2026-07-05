@@ -307,6 +307,10 @@ export default function OnboardingPage() {
                 </div>
               </div>
             )}
+            <div className="mt-8 p-4 bg-[#171d1b] border border-amber-500/20 rounded-xl text-xs text-[#bccac4] leading-relaxed">
+              <strong className="text-amber-500 block mb-1">⚠️ Medical Disclaimer</strong>
+              Mediverse is an educational training platform for MBBS and PG preparation. All content, interactive practice questions, and AI-generated study summaries are for academic revision purposes only. They do not constitute clinical/diagnostic advice, nor are they a substitute for professional medical judgment.
+            </div>
           </>
         )}
       </main>
