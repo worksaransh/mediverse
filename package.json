@@ -16,6 +16,9 @@
     "db:studio": "pnpm --filter @mediverse/db db:studio"
   },
   "devDependencies": {
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "prettier": "^3.4.0",
     "supabase": "^2.109.0",
     "turbo": "^2.4.0"
