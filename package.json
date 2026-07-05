@@ -13,7 +13,8 @@
     "db:migrate": "pnpm --filter @mediverse/db db:migrate",
     "db:push": "pnpm --filter @mediverse/db db:push",
     "db:seed": "pnpm --filter @mediverse/db db:seed",
-    "db:studio": "pnpm --filter @mediverse/db db:studio"
+    "db:studio": "pnpm --filter @mediverse/db db:studio",
+    "pipeline:pharm": "pnpm --filter @mediverse/mcq-pipeline pipeline"
   },
   "devDependencies": {
     "next": "^15.0.0",
