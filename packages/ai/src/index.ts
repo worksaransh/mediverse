@@ -30,17 +30,83 @@ export interface AIProfile {
 }
 
 /**
+ * Clean, zero-dependency REST query helper for Google Gemini API.
+ */
+async function callGemini(
+  prompt: string,
+  systemInstruction?: string,
+  responseMimeType?: string
+): Promise<string> {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey || apiKey === "your_gemini_api_key") return "";
+
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const body: any = {
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: prompt }]
+        }
+      ]
+    };
+
+    if (systemInstruction) {
+      body.systemInstruction = {
+        parts: [{ text: systemInstruction }]
+      };
+    }
+
+    if (responseMimeType) {
+      body.generationConfig = {
+        responseMimeType
+      };
+    }
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error("[Gemini] API error:", errText);
+      return "";
+    }
+
+    const data = await res.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    return text || "";
+  } catch (error) {
+    console.error("[Gemini] Error making request:", error);
+    return "";
+  }
+}
+
+/**
  * Ask the AI Mentor a medical question.
- * Uses Anthropic Claude under the hood.
- * Returns a mock response when ANTHROPIC_API_KEY is not set.
+ * Uses Anthropic Claude or falls back to Google Gemini.
  */
 export async function askMentor(query: MentorQuery): Promise<MentorResponse> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
   if (!apiKey || apiKey === "sk-ant-xxxxx") {
-    console.warn("[AI] ANTHROPIC_API_KEY not set — returning mock response");
+    // Attempt Gemini Fallback
+    const geminiAnswer = await callGemini(
+      `You are an expert medical AI Mentor. Answer the following medical query clearly, with clinical correlations: ${query.question}`
+    );
+    if (geminiAnswer) {
+      return {
+        answer: geminiAnswer,
+        references: [],
+        confidence: 0.9,
+      };
+    }
+
+    console.warn("[AI] Neither Anthropic nor Gemini API key set — returning mock response");
     return {
-      answer: `[Mock] Response for: "${query.question}". Configure ANTHROPIC_API_KEY for real AI responses.`,
+      answer: `[Mock] Response for: "${query.question}". Configure ANTHROPIC_API_KEY or GEMINI_API_KEY for real AI responses.`,
       references: [],
       confidence: 0,
     };
@@ -76,7 +142,7 @@ export async function askMentor(query: MentorQuery): Promise<MentorResponse> {
 }
 
 /**
- * Generate a custom AI profile using a cheap Claude call on onboarding completion.
+ * Generate a custom AI profile using Claude or Gemini fallback.
  */
 export async function generateAIProfile(data: OnboardingData): Promise<AIProfile> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -95,14 +161,7 @@ export async function generateAIProfile(data: OnboardingData): Promise<AIProfile
     ],
   };
 
-  if (!apiKey || apiKey === "sk-ant-xxxxx") {
-    console.warn("[AI] ANTHROPIC_API_KEY not set — returning default mock AI profile");
-    return mockProfile;
-  }
-
-  try {
-    const anthropic = new Anthropic({ apiKey });
-    const prompt = `You are a medical study planner. Create a study plan for a student preparing for the "${data.examTarget}" exam targeting the year ${data.examTargetYear}. 
+  const prompt = `You are a medical study planner. Create a study plan for a student preparing for the "${data.examTarget}" exam targeting the year ${data.examTargetYear}. 
 The student is currently at the study stage of "${data.currentYear}".
 Their reported weak subjects are: ${data.weakSubjects.join(", ")}.
 
@@ -114,6 +173,29 @@ Provide a structured study plan as a raw, valid JSON object containing exactly t
 
 Do NOT include any codeblocks, markdowns, or explanations. Respond with ONLY the raw JSON string.`;
 
+  if (!apiKey || apiKey === "sk-ant-xxxxx") {
+    // Attempt Gemini Fallback
+    const geminiResponse = await callGemini(prompt, undefined, "application/json");
+    if (geminiResponse) {
+      try {
+        const parsed = JSON.parse(geminiResponse);
+        return {
+          strengths_summary: parsed.strengths_summary || mockProfile.strengths_summary,
+          study_strategy: parsed.study_strategy || mockProfile.study_strategy,
+          weekly_goals: parsed.weekly_goals || mockProfile.weekly_goals,
+          recommended_resources: parsed.recommended_resources || mockProfile.recommended_resources,
+        };
+      } catch (e) {
+        console.warn("[AI] Failed to parse Gemini response JSON:", geminiResponse);
+      }
+    }
+
+    console.warn("[AI] Neither Anthropic nor Gemini API key set — returning default mock AI profile");
+    return mockProfile;
+  }
+
+  try {
+    const anthropic = new Anthropic({ apiKey });
     const response = await anthropic.messages.create({
       model: "claude-3-5-haiku-latest",
       max_tokens: 1000,
@@ -185,6 +267,16 @@ export async function routeIntent(prompt: string): Promise<string> {
   if (isHelp) return "platform_help";
 
   if (!apiKey || apiKey === "sk-ant-xxxxx") {
+    // Attempt Gemini Fallback
+    const promptText = `Classify the following medical query into exactly one category: 'study_help', 'study_plan', 'research_query', 'news_query', 'platform_help', 'unsafe_clinical'.
+Query: "${prompt}"
+Respond with ONLY the category string and nothing else.`;
+    const geminiAnswer = await callGemini(promptText);
+    const cleaned = geminiAnswer.replace(/['"]/g, "").trim().toLowerCase();
+    if (["study_help", "study_plan", "research_query", "news_query", "platform_help", "unsafe_clinical"].includes(cleaned)) {
+      return cleaned;
+    }
+
     return "study_help";
   }
 
@@ -273,8 +365,28 @@ export async function generateMentorResponse(params: MentorResponseParams): Prom
 
   const systemPrompt = `${basePersona}\n\n${safetyRules}\n\n${profileBlock}\n\n${performanceBlock}\n\n${skillInstructions}`;
 
-  // 3. Mock Response Fallback if no API key
   if (!apiKey || apiKey === "sk-ant-xxxxx") {
+    // Attempt Gemini Fallback
+    const geminiAnswer = await callGemini(`${contextBlock}\n\nQuery: "${params.prompt}"`, systemPrompt);
+    if (geminiAnswer) {
+      const citedContentIds: string[] = [];
+      const matches = geminiAnswer.match(/\[feed-item-\d+\]/g);
+      if (matches) {
+        matches.forEach((m) => {
+          const cleanedId = m.replace(/[\[\]]/g, "");
+          if (!citedContentIds.includes(cleanedId)) {
+            citedContentIds.push(cleanedId);
+          }
+        });
+      }
+      return {
+        answer: geminiAnswer.startsWith("AI-generated: ") ? geminiAnswer : `AI-generated: ${geminiAnswer}`,
+        citedContentIds,
+        flagged: false,
+      };
+    }
+
+    // Default Mock Response Fallback
     let mockAnswer = "AI-generated: ";
     let citedContentIds: string[] = [];
 
@@ -297,7 +409,7 @@ export async function generateMentorResponse(params: MentorResponseParams): Prom
     };
   }
 
-  // 4. Real LLM Call using Claude Sonnet/Haiku
+  // Real LLM Call using Claude Sonnet/Haiku
   try {
     const anthropic = new Anthropic({ apiKey });
     const response = await anthropic.messages.create({

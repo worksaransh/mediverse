@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsx watch src/index.ts",
-    "start": "node dist/index.js",
+    "start": "node dist/index.mjs",
     "lint": "echo 'lint: not configured'",
     "typecheck": "tsc --noEmit",
     "test": "tsx src/test-digest.ts"
@@ -15,13 +15,14 @@
     "ioredis": "^5.0.0"
   },
   "devDependencies": {
+    "@mediverse/ai": "workspace:*",
     "@mediverse/config": "workspace:*",
     "@mediverse/db": "workspace:*",
-    "@mediverse/ai": "workspace:*",
     "@mediverse/ingestion": "workspace:*",
-    "typescript": "^5.7.0",
     "@types/node": "^22.0.0",
+    "ioredis-mock": "^8.13.1",
     "tsup": "^8.0.0",
-    "tsx": "^4.0.0"
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
   }
 }
