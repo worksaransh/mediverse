@@ -238,6 +238,28 @@ importers:
         specifier: ^5.7.0
         version: 5.9.3
 
+  packages/mcq-pipeline:
+    dependencies:
+      '@mediverse/ai':
+        specifier: workspace:*
+        version: link:../ai
+      '@mediverse/db':
+        specifier: workspace:*
+        version: link:../db
+    devDependencies:
+      '@mediverse/config':
+        specifier: workspace:*
+        version: link:../config
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.0
+      tsx:
+        specifier: ^4.0.0
+        version: 4.22.5
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
   packages/ui:
     dependencies:
       react:
