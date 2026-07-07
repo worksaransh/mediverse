@@ -14,7 +14,7 @@ export default defineConfig({
     {
       command: "pnpm run dev",
       url: "http://127.0.0.1:3000",
-      reuseExistingServer: false,
+      reuseExistingServer: true,
       timeout: 120000,
       env: {
         DATABASE_URL: "postgres://localhost:5432/mock",
@@ -23,7 +23,7 @@ export default defineConfig({
     {
       command: "pnpm --filter @mediverse/admin dev",
       url: "http://127.0.0.1:3001",
-      reuseExistingServer: false,
+      reuseExistingServer: true,
       timeout: 120000,
       env: {
         DATABASE_URL: "postgres://localhost:5432/mock",

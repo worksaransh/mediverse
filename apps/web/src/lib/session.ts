@@ -1,4 +1,4 @@
-import { cookies } from "next/headers"; // Wait, in Next 15 it's import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
 
 const SECRET_KEY = process.env.JWT_SECRET || "mediverse-super-secret-key-1234567890";
@@ -32,11 +32,16 @@ export async function decrypt(session: string | undefined): Promise<any> {
 export async function createSession(userId: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const session = await encrypt({ userId, expiresAt });
+  
+  const headersList = await headers();
+  const host = headersList.get("host") || "";
+  const isLocal = host.includes("localhost") || host.includes("127.0.0.1");
+
   const cookieStore = await cookies();
   
   cookieStore.set("mediverse_session", session, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production" && !isLocal,
     expires: expiresAt,
     sameSite: "lax",
     path: "/",
