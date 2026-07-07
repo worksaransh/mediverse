@@ -6,3 +6,6 @@ allowBuilds:
   msgpackr-extract: true
   sharp: true
   sqlite3: set this to true or false
+
+overrides:
+  ioredis: "5.4.1"

@@ -9,6 +9,7 @@ test.describe("Mediverse End-to-End Publishing Pipeline", () => {
     const randomPhone = `989${Math.floor(1000000 + Math.random() * 9000000)}`;
     await page.goto("http://127.0.0.1:3000/login");
     await page.fill("#phone-input", randomPhone);
+    await page.check("#consent-checkbox");
     await page.click("#send-otp-btn");
     await expect(page.locator("#otp-input")).toBeVisible();
     await page.fill("#otp-input", "1234");

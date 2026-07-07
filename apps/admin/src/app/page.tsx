@@ -170,26 +170,26 @@ export default function AdminDashboardPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4" id="stats-grid">
           <div className="p-5 rounded-2xl bg-[#131916] border border-[#3d4946] shadow-sm">
             <div className="text-xl mb-1">📝</div>
-            <p className="text-2xl font-bold text-white font-headline-lg">{data?.stats.draftCount}</p>
+            <p className="text-2xl font-bold text-white font-headline-lg">{data?.stats?.draftCount}</p>
             <p className="text-xs text-[#bccac4] uppercase tracking-wider font-semibold">Pending Drafts</p>
           </div>
           <div className="p-5 rounded-2xl bg-[#131916] border border-[#3d4946] shadow-sm">
             <div className="text-xl mb-1">📚</div>
-            <p className="text-2xl font-bold text-white font-headline-lg">{data?.stats.publishedCount}</p>
+            <p className="text-2xl font-bold text-white font-headline-lg">{data?.stats?.publishedCount}</p>
             <p className="text-xs text-[#bccac4] uppercase tracking-wider font-semibold">Published Items</p>
           </div>
           <div className="p-5 rounded-2xl bg-[#131916] border border-[#3d4946] shadow-sm">
             <div className="text-xl mb-1">👥</div>
-            <p className="text-2xl font-bold text-white font-headline-lg">{data?.stats.totalUsers}</p>
+            <p className="text-2xl font-bold text-white font-headline-lg">{data?.stats?.totalUsers}</p>
             <p className="text-xs text-[#bccac4] uppercase tracking-wider font-semibold">Total Students</p>
           </div>
           <div className={`p-5 rounded-2xl border shadow-sm transition-colors ${
-            data?.stats.flaggedCount && data.stats.flaggedCount > 0
+            data?.stats?.flaggedCount && data?.stats?.flaggedCount > 0
               ? "bg-red-950/20 border-red-500/30 text-red-200 animate-pulse"
               : "bg-[#131916] border-[#3d4946]"
           }`}>
             <div className="text-xl mb-1">🚨</div>
-            <p className="text-2xl font-bold text-white font-headline-lg">{data?.stats.flaggedCount}</p>
+            <p className="text-2xl font-bold text-white font-headline-lg">{data?.stats?.flaggedCount}</p>
             <p className="text-xs uppercase tracking-wider font-semibold">Flagged Moderation Alerts</p>
           </div>
         </div>
@@ -375,7 +375,7 @@ export default function AdminDashboardPage() {
               </h2>
               
               <div className="space-y-3" id="flagged-messages-list">
-                {data?.flaggedMessages.map((msg) => (
+                {data?.flaggedMessages?.map((msg) => (
                   <div key={msg.id} className="p-4 bg-red-950/10 border border-red-500/20 rounded-xl space-y-2 data-flagged-message">
                     <div className="flex justify-between items-center text-[10px] text-[#ffb4ab] font-bold uppercase tracking-wider">
                       <span>⚠ Unsafe Clinical Request</span>
@@ -405,7 +405,7 @@ export default function AdminDashboardPage() {
               </h2>
               
               <div className="space-y-3" id="ingestion-sources-list">
-                {data?.ingestionSources.map((source, idx) => (
+                {data?.ingestionSources?.map((source, idx) => (
                   <div key={idx} className="p-3 bg-[#0c100e] border border-[#3d4946]/50 rounded-xl space-y-2">
                     <div className="flex justify-between items-center">
                       <span className="text-xs font-bold text-white">{source.source}</span>
@@ -429,7 +429,7 @@ export default function AdminDashboardPage() {
               </h2>
               
               <div className="space-y-3" id="students-list">
-                {data?.users.map((student) => (
+                {data?.users?.map((student) => (
                   <div key={student.id} className="p-3 bg-[#0c100e] border border-[#3d4946]/50 rounded-xl space-y-1.5">
                     <div className="flex justify-between items-center">
                       <span className="text-xs font-semibold text-white truncate max-w-[150px]">{student.email}</span>

@@ -13,6 +13,7 @@ test.describe("Mediverse Signup, Onboarding & Dashboard E2E", () => {
     console.log("--> Inputting phone number");
     const randomPhone = `98${Math.floor(100000 + Math.random() * 900000)}00`;
     await page.fill("#phone-input", randomPhone);
+    await page.check("#consent-checkbox");
     await page.screenshot({ path: path.join(__dirname, "screenshots/2-phone-inputted.png") });
     await page.click("#send-otp-btn");
 

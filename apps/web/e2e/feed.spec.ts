@@ -8,6 +8,7 @@ test.describe("Mediverse Personalized Discover Feed E2E", () => {
     // 1. Login
     await page.goto("/login");
     await page.fill("#phone-input", phone);
+    await page.check("#consent-checkbox");
     await page.click("#send-otp-btn");
     await expect(page.locator("#otp-input")).toBeVisible();
     await page.fill("#otp-input", "1234");

@@ -9,6 +9,7 @@ test.describe("Mediverse Daily Adaptive MCQ habit loop E2E", () => {
     const randomPhone = `98${Math.floor(10000000 + Math.random() * 90000000)}`;
     await page.goto("/login");
     await page.fill("#phone-input", randomPhone);
+    await page.check("#consent-checkbox");
     await page.click("#send-otp-btn");
     await expect(page.locator("#otp-input")).toBeVisible();
     await page.fill("#otp-input", "1234");
