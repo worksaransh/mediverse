@@ -236,6 +236,10 @@ importers:
         version: 5.9.3
 
   packages/ingestion:
+    dependencies:
+      drizzle-orm:
+        specifier: ^0.39.0
+        version: 0.39.3(postgres@3.4.9)
     devDependencies:
       '@mediverse/config':
         specifier: workspace:*
