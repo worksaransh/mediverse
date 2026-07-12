@@ -3,6 +3,25 @@ import { PipelineConfig, PipelineReport } from "./types";
 import * as fs from "fs";
 import * as path from "path";
 
+// Load .env parameters
+const envPath = path.resolve(__dirname, "../../../.env");
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, "utf8");
+  envContent.split("\n").forEach((line) => {
+    const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
+    if (match) {
+      const key = match[1];
+      let value = match[2] || "";
+      if (value.startsWith('"') && value.endsWith('"')) {
+        value = value.slice(1, -1);
+      } else if (value.startsWith("'") && value.endsWith("'")) {
+        value = value.slice(1, -1);
+      }
+      process.env[key] = value;
+    }
+  });
+}
+
 function generateAuditReport(report: PipelineReport): string {
   const lines: string[] = [];
   const t = (s: string) => s; // no-op for formatting

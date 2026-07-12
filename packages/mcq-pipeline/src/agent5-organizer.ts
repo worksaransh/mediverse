@@ -1,6 +1,6 @@
 import { GeneratedMCQ, PipelineConfig } from "./types";
-import { createDb } from "@mediverse/db";
-import { mcqs, contentItems, papers, sources } from "@mediverse/db/schema";
+import { createDb } from "../../db/src/client";
+import { mcqs, contentItems, papers, sources } from "../../db/src/schema";
 import crypto from "crypto";
 
 export class OrganizerAgent {
@@ -54,31 +54,7 @@ export class OrganizerAgent {
         // Write source content to content_items
         const sourceText = mcq.sources.map((s) => `${s.title} (${s.url})`).join("; ");
         
-        try {
-          // Try inserting via the mock DB
-          const insertResult = await db.insert(mcqs).values({
-            id: mcq.id,
-            contentItemId: contentItemId,
-            question: mcq.question,
-            options: JSON.stringify(mcq.options),
-            correctOption: mcq.correctOption,
-            explanation: mcq.explanation,
-            difficulty: mcq.difficulty,
-            subject: mcq.subject,
-            topicTags: mcq.topicTags,
-            sourceReference: sourceText,
-            verified: true,
-          });
-
-          written++;
-          log.push(`[ORGANIZER] ✅ ${mcq.id}: Written to DB (${mcq.subject}, difficulty ${mcq.difficulty})`);
-        } catch (dbError: any) {
-          log.push(`[ORGANIZER] ⚠️  ${mcq.id}: DB write issue: ${dbError.message || dbError}`);
-          // Still count it, the mock DB might handle it differently
-          written++;
-        }
-
-        // Also write content item and paper references for audit trail
+        // 1. Write content item reference first to satisfy foreign key constraint
         try {
           await db.insert(contentItems).values({
             id: contentItemId,
@@ -100,6 +76,29 @@ export class OrganizerAgent {
           });
         } catch (ciError: any) {
           log.push(`[ORGANIZER] ⚠️  Content item write issue: ${ciError.message || ciError}`);
+        }
+
+        // 2. Write MCQ
+        try {
+          const mcqUuid = crypto.randomUUID();
+          await db.insert(mcqs).values({
+            id: mcqUuid,
+            contentItemId: contentItemId,
+            question: mcq.question,
+            options: mcq.options,
+            correctOption: mcq.correctOption,
+            explanation: mcq.explanation,
+            difficulty: mcq.difficulty,
+            subject: mcq.subject,
+            topicTags: mcq.topicTags,
+            sourceReference: sourceText,
+            verified: true,
+          });
+
+          written++;
+          log.push(`[ORGANIZER] ✅ ${mcq.id}: Written to DB (${mcq.subject}, difficulty ${mcq.difficulty})`);
+        } catch (dbError: any) {
+          log.push(`[ORGANIZER] ⚠️  ${mcq.id}: DB write issue: ${dbError.message || dbError}`);
         }
       }
 

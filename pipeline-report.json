@@ -1,0 +1,1250 @@
+{
+  "pipelineStartTime": "2026-07-12T08:44:09.883Z",
+  "pipelineEndTime": "2026-07-12T08:44:25.694Z",
+  "config": {
+    "specialty": "Pharmacology",
+    "careerStage": "pg_prep",
+    "targetCount": 50,
+    "difficultySpread": {
+      "easy": -1,
+      "moderate": -1,
+      "hard": -1
+    },
+    "useLiveLLM": false,
+    "verbose": true
+  },
+  "factsFound": 62,
+  "factsVerified": 62,
+  "factsRejected": 0,
+  "mcqsGenerated": 50,
+  "mcqsApproved": 50,
+  "mcqsRejected": 0,
+  "mcqsWritten": 50,
+  "coverage": {
+    "Pharmacokinetics": 3,
+    "Drug Metabolism": 1,
+    "Therapeutic Drug Monitoring": 1,
+    "Drug Interactions": 1,
+    "Autonomic Nervous System": 1,
+    "ANS - Alpha Blockers": 1,
+    "ANS - Beta Blockers": 1,
+    "Parasympathomimetics": 2,
+    "Neuromuscular Blockers": 1,
+    "Beta-2 Agonists": 1,
+    "Antihypertensives - ACE Inhibitors": 1,
+    "Calcium Channel Blockers": 2,
+    "Cardiac Glycosides": 1,
+    "Antiarrhythmics": 2,
+    "Lipid-Lowering Drugs": 1,
+    "Antihypertensives - Vasodilators": 1,
+    "Antiepileptics": 2,
+    "Antidepressants - SSRIs": 1,
+    "Antidepressants - TCAs": 1,
+    "Antipsychotics": 1,
+    "Antipsychotics - Atypical": 1,
+    "Benzodiazepines": 1,
+    "Antiparkinsonian Drugs": 1,
+    "Opioid Analgesics": 1,
+    "Antidiabetics - Biguanides": 1,
+    "Insulin Therapy": 1,
+    "Antithyroid Drugs": 1,
+    "Corticosteroids": 1,
+    "Antibiotics - Penicillins": 1,
+    "Antibiotics - Cephalosporins": 1,
+    "Antibiotics - Macrolides": 1,
+    "Antibiotics - Aminoglycosides": 1,
+    "Antibiotics - Fluoroquinolones": 1,
+    "Antibiotics - Metronidazole": 1,
+    "Antitubercular Drugs": 2,
+    "Antimalarials": 1,
+    "Anticancer - Antimetabolites": 1,
+    "Anticancer - Anthracyclines": 1,
+    "Diuretics - Loop": 1,
+    "Diuretics - K+ Sparing": 1,
+    "Diuretics - CA Inhibitors": 1,
+    "Respiratory - Anticholinergics": 1,
+    "Respiratory - Methylxanthines": 1
+  },
+  "sampleMCQs": [
+    {
+      "id": "mcq-pharmacology-000",
+      "question": "Which of the following drugs undergoes the MOST extensive first-pass metabolism, making oral administration impractical?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Propranolol"
+        },
+        {
+          "key": "B",
+          "text": "Lidocaine"
+        },
+        {
+          "key": "C",
+          "text": "Nitroglycerin"
+        },
+        {
+          "key": "D",
+          "text": "All of the above"
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "Lidocaine, propranolol, and nitroglycerin all undergo extensive first-pass hepatic metabolism. Lidocaine is therefore given IV/IM, nitroglycerin sublingually, and propranolol requires higher oral doses to achieve therapeutic effect. First-pass metabolism occurs in the liver via the portal circulation.",
+      "difficulty": 2,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Pharmacokinetics",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "First-pass metabolism primarily occurs in the liver via the portal circulation, significantly reducing oral bioavailability of drugs like propranolol, lidocaine, and nitroglycerin."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - First Pass Metabolism",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK551679/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "NCBI - Drug Distribution and Metabolism",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31985931/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "31985931"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "recall",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.887Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-001",
+      "question": "A drug has a volume of distribution (Vd) of 40 L in a 70 kg patient. Which statement BEST describes this drug?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The drug is largely confined to the plasma compartment"
+        },
+        {
+          "key": "B",
+          "text": "The drug distributes widely into tissues"
+        },
+        {
+          "key": "C",
+          "text": "The drug is highly protein-bound"
+        },
+        {
+          "key": "D",
+          "text": "The drug has poor oral bioavailability"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "A Vd of 40 L (approximately 0.57 L/kg) in a 70 kg patient exceeds total body water (~42 L), suggesting the drug distributes extensively into tissues. High Vd (>0.6 L/kg) indicates extensive tissue distribution. Vd relates the total amount of drug in the body to its plasma concentration.",
+      "difficulty": 3,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Pharmacokinetics",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Volume of distribution (Vd) is a theoretical volume that relates the amount of drug in the body to the plasma concentration. Drugs with high Vd (>0.6 L/kg) distribute widely into tissues."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Volume of Distribution",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK545280/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Clinical Pharmacokinetics",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32242330/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "32242330"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "application",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.887Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-002",
+      "question": "Which cytochrome P450 isoform is responsible for the metabolism of approximately 50% of all clinically used drugs?",
+      "options": [
+        {
+          "key": "A",
+          "text": "CYP2D6"
+        },
+        {
+          "key": "B",
+          "text": "CYP3A4"
+        },
+        {
+          "key": "C",
+          "text": "CYP2C9"
+        },
+        {
+          "key": "D",
+          "text": "CYP2E1"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "CYP3A4 is the most abundant CYP450 isoform in the liver and small intestine, metabolizing ~50% of all drugs. CYP2D6 metabolizes ~25% of drugs (antidepressants, antipsychotics). CYP2C9 metabolizes warfarin, phenytoin. CYP2E1 metabolizes ethanol, paracetamol.",
+      "difficulty": 2,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Drug Metabolism",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Phase I drug metabolism involves oxidation, reduction, and hydrolysis reactions catalyzed primarily by the cytochrome P450 enzyme family (CYP3A4 metabolizes ~50% of all drugs). Phase II involves conjugation reactions (glucuronidation, sulfation, acetylation)."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Drug Metabolism",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK535465/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Cytochrome P450 enzymes",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31511732/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "31511732"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "recall",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.887Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-003",
+      "question": "Therapeutic drug monitoring (TDM) is LEAST likely to be required for which of the following drugs?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Warfarin"
+        },
+        {
+          "key": "B",
+          "text": "Amoxicillin"
+        },
+        {
+          "key": "C",
+          "text": "Digoxin"
+        },
+        {
+          "key": "D",
+          "text": "Lithium"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Amoxicillin has a wide therapeutic index and does not require TDM. Warfarin (INR), digoxin (0.5-2.0 ng/mL), and lithium (0.6-1.2 mEq/L) all have narrow therapeutic indices and require routine TDM to avoid toxicity while ensuring efficacy.",
+      "difficulty": 2,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Therapeutic Drug Monitoring",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Therapeutic drug monitoring (TDM) is clinically indicated for drugs with narrow therapeutic indices: digoxin, warfarin, lithium, aminoglycosides, cyclosporine, phenytoin, and carbamazepine."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Therapeutic Drug Monitoring",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK430775/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - TDM consensus guidelines",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30861979/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "30861979"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "application",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.887Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-004",
+      "question": "A patient on warfarin is started on rifampicin for tuberculosis. What effect on INR is expected?",
+      "options": [
+        {
+          "key": "A",
+          "text": "INR will increase due to displacement from protein binding"
+        },
+        {
+          "key": "B",
+          "text": "INR will decrease due to enzyme induction increasing warfarin metabolism"
+        },
+        {
+          "key": "C",
+          "text": "INR will remain unchanged"
+        },
+        {
+          "key": "D",
+          "text": "INR will increase due to enzyme inhibition reducing warfarin metabolism"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Rifampicin is a potent CYP450 inducer (particularly CYP2C9 and CYP3A4), which increases the metabolism of warfarin, reducing its anticoagulant effect and decreasing INR. Warfarin dose may need to be increased. This is an important drug interaction mediated by enzyme induction.",
+      "difficulty": 3,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Drug Interactions",
+        "statpearls",
+        "fda"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Enzyme induction (e.g., rifampin inducing CYP3A4) increases drug metabolism, reducing plasma concentrations of co-administered drugs. Enzyme inhibition (e.g., cimetidine inhibiting CYP450) decreases metabolism, increasing drug levels and potential toxicity."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Enzyme Induction and Inhibition",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK553164/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "FDA - Drug Interactions",
+          "url": "https://www.fda.gov/drugs/drug-interactions-labeling",
+          "type": "fda",
+          "tier": 2,
+          "accessedDate": "2026-07-05"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "clinical_reasoning",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.887Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-005",
+      "question": "Which of the following drugs follows zero-order elimination kinetics at therapeutic doses?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Metformin"
+        },
+        {
+          "key": "B",
+          "text": "Phenytoin"
+        },
+        {
+          "key": "C",
+          "text": "Amoxicillin"
+        },
+        {
+          "key": "D",
+          "text": "Atorvastatin"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Phenytoin exhibits zero-order (saturable) elimination kinetics at therapeutic doses because its metabolizing enzymes (CYP2C9/CYP2C19) become saturated. This means a constant amount is eliminated per unit time regardless of plasma concentration, making dose adjustments critical to avoid toxicity.",
+      "difficulty": 3,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Pharmacokinetics",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Drugs with zero-order kinetics (saturable metabolism) include aspirin (in high doses), phenytoin, ethanol, and theophylline. The elimination rate is constant regardless of plasma concentration."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Zero-Order Kinetics",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK549887/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Nonlinear Pharmacokinetics",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33756330/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "33756330"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "recall",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.887Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-006",
+      "question": "Which of the following is the mechanism of action of atropine?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Competitive antagonist at nicotinic receptors"
+        },
+        {
+          "key": "B",
+          "text": "Competitive antagonist at muscarinic receptors"
+        },
+        {
+          "key": "C",
+          "text": "Irreversible inhibitor of acetylcholinesterase"
+        },
+        {
+          "key": "D",
+          "text": "Direct agonist at beta-2 adrenergic receptors"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Atropine is a competitive antagonist of muscarinic acetylcholine receptors. It blocks the effects of acetylcholine at all muscarinic sites, causing mydriasis, increased heart rate, decreased secretions, and smooth muscle relaxation. It is used for bradycardia, organophosphate poisoning, and as a preanesthetic.",
+      "difficulty": 1,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Autonomic Nervous System",
+        "statpearls",
+        "who"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Atropine is a competitive antagonist of muscarinic acetylcholine receptors. It blocks the effects of excess acetylcholine, used to treat bradycardia, organophosphate poisoning, and as a preanesthetic to reduce secretions."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Atropine",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK470551/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "WHO Model List of Essential Medicines",
+          "url": "https://www.who.int/groups/expert-committee-on-selection-and-use-of-essential-medicines",
+          "type": "who",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "recall",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.887Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-007",
+      "question": "A 65-year-old male with hypertension is started on prazosin. After the first dose, he develops severe orthostatic dizziness. This is BEST explained by which phenomenon?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Idiosyncratic drug reaction"
+        },
+        {
+          "key": "B",
+          "text": "First-dose phenomenon due to selective alpha-1 blockade"
+        },
+        {
+          "key": "C",
+          "text": "Beta-receptor upregulation"
+        },
+        {
+          "key": "D",
+          "text": "Type I hypersensitivity reaction"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Prazosin, a selective alpha-1 adrenergic antagonist, can cause a marked first-dose orthostatic hypotension (first-dose phenomenon). This occurs because alpha-1 blockade inhibits catecholamine-mediated vasoconstriction. It can be minimized by starting with a low dose at bedtime. Prazosin is also used for BPH.",
+      "difficulty": 3,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "ANS - Alpha Blockers",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Prazosin is a selective alpha-1 adrenergic receptor antagonist used for hypertension and benign prostatic hyperplasia. First-dose phenomenon (orthostatic hypotension) is a notable adverse effect."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Prazosin",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK556102/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Alpha-blockers review",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30672813/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "30672813"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "clinical_reasoning",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.887Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-008",
+      "question": "Propranolol is contraindicated in patients with bronchial asthma because it can cause:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Alpha-receptor mediated bronchoconstriction"
+        },
+        {
+          "key": "B",
+          "text": "Beta-2 receptor blockade leading to bronchospasm"
+        },
+        {
+          "key": "C",
+          "text": "Direct irritant effect on bronchial mucosa"
+        },
+        {
+          "key": "D",
+          "text": "Histamine release from mast cells"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Propranolol is a non-selective beta-blocker (blocks both beta-1 and beta-2 receptors). Beta-2 blockade in the lungs causes bronchoconstriction, which can precipitate asthma attacks. Cardioselective beta-1 blockers (atenolol, metoprolol) are relatively safer but should still be used with caution.",
+      "difficulty": 2,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "ANS - Beta Blockers",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Propranolol is a non-selective beta-blocker (beta-1 and beta-2). It is contraindicated in asthma due to beta-2 blockade causing bronchoconstriction, and in diabetes due to masking of hypoglycemia-induced tachycardia."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Propranolol",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK557801/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Beta-blocker contraindications",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30814275/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "30814275"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "application",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.887Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-009",
+      "question": "Neostigmine is used in the management of myasthenia gravis. Its primary mechanism of action is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Direct stimulation of nicotinic receptors at the NMJ"
+        },
+        {
+          "key": "B",
+          "text": "Inhibition of acetylcholinesterase, increasing ACh at the NMJ"
+        },
+        {
+          "key": "C",
+          "text": "Blockade of voltage-gated sodium channels"
+        },
+        {
+          "key": "D",
+          "text": "Increased synthesis of acetylcholine"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Neostigmine is a reversible acetylcholinesterase inhibitor. It prevents the breakdown of acetylcholine (ACh) in the synaptic cleft, increasing ACh concentration at the neuromuscular junction. This improves muscle strength in myasthenia gravis. It is also used to reverse non-depolarizing neuromuscular blockade after surgery.",
+      "difficulty": 2,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Parasympathomimetics",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Neostigmine is a reversible acetylcholinesterase inhibitor used for myasthenia gravis and reversal of non-depolarizing neuromuscular blockade. It increases acetylcholine availability at the neuromuscular junction."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Neostigmine",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK470596/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Acetylcholinesterase inhibitors",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/34322130/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "34322130"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "recall",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.887Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-010",
+      "question": "A patient develops prolonged apnea after receiving succinylcholine during surgery. Which of the following is the MOST likely cause?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Overdose of the drug"
+        },
+        {
+          "key": "B",
+          "text": "Pseudocholinesterase deficiency"
+        },
+        {
+          "key": "C",
+          "text": "Concurrent use of neostigmine"
+        },
+        {
+          "key": "D",
+          "text": "Allergic reaction to the drug"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Succinylcholine is metabolized by plasma pseudocholinesterase (butyrylcholinesterase). Patients with genetic pseudocholinesterase deficiency or atypical enzyme cannot metabolize succinylcholine efficiently, leading to prolonged neuromuscular blockade and apnea. This can be managed with supportive ventilation until spontaneous recovery.",
+      "difficulty": 3,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Neuromuscular Blockers",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Succinylcholine is a depolarizing neuromuscular blocker that causes initial muscle fasciculations followed by paralysis. It is metabolized by plasma pseudocholinesterase. Prolonged apnea can occur in patients with pseudocholinesterase deficiency."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Succinylcholine",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK534223/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Pseudocholinesterase deficiency",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30701146/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "30701146"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "clinical_reasoning",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.887Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-011",
+      "question": "Salbutamol (albuterol) nebulization in an acute asthma attack can cause all of the following adverse effects EXCEPT:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Sinus tachycardia"
+        },
+        {
+          "key": "B",
+          "text": "Hypokalemia"
+        },
+        {
+          "key": "C",
+          "text": "Hypotension"
+        },
+        {
+          "key": "D",
+          "text": "Fine tremor of skeletal muscles"
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "Salbutamol is a selective beta-2 agonist that causes bronchodilation. Common adverse effects include tachycardia (from beta-1 cross-stimulation at high doses), hypokalemia (beta-2 mediated shift of potassium into cells), and fine tremor (beta-2 stimulation of skeletal muscle). It does NOT cause hypotension; in fact, beta-2 mediated vasodilation can slightly lower BP but this is not a typical concern.",
+      "difficulty": 3,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Beta-2 Agonists",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Salbutamol (albuterol) is a selective beta-2 agonist used as a bronchodilator in asthma and COPD. Common adverse effects include tremor, tachycardia, and hypokalemia from beta-2 mediated potassium shift into cells."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Albuterol",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK556074/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Beta-2 agonists in asthma",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32311827/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "32311827"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "application",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.888Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-012",
+      "question": "Pilocarpine is used in the treatment of glaucoma. Its mechanism of action is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Alpha-2 agonist reducing aqueous humor production"
+        },
+        {
+          "key": "B",
+          "text": "Muscarinic agonist causing pupillary constriction and increased outflow"
+        },
+        {
+          "key": "C",
+          "text": "Beta-blocker reducing aqueous humor secretion"
+        },
+        {
+          "key": "D",
+          "text": "Prostaglandin analogue increasing uveoscleral outflow"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Pilocarpine is a direct-acting muscarinic agonist. In the eye, it causes miosis (pupillary constriction) by contracting the iris sphincter muscle and increases aqueous humor outflow through the trabecular meshwork by contracting the ciliary muscle. Both effects reduce intraocular pressure in open-angle glaucoma.",
+      "difficulty": 2,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Parasympathomimetics",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Pilocarpine is a direct-acting muscarinic agonist used topically for glaucoma (constricts pupil and increases aqueous humor outflow). Systemic effects include bradycardia, sweating, and salivation."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Pilocarpine",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK556128/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Glaucoma pharmacotherapy",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31920475/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "31920475"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "recall",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.888Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-013",
+      "question": "A 55-year-old hypertensive patient develops a persistent dry cough after starting an antihypertensive medication. Which drug is MOST likely responsible?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Amlodipine"
+        },
+        {
+          "key": "B",
+          "text": "Enalapril"
+        },
+        {
+          "key": "C",
+          "text": "Metoprolol"
+        },
+        {
+          "key": "D",
+          "text": "Hydrochlorothiazide"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "ACE inhibitors (like enalapril and captopril) cause a dry cough due to accumulation of bradykinin, which is normally broken down by ACE (kininase II). Bradykinin stimulates pulmonary C-fibers causing cough. This class effect occurs in 5-20% of patients. Angioedema is a rarer but more serious adverse effect. ARBs (losartan) are alternatives that do not cause cough.",
+      "difficulty": 2,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Antihypertensives - ACE Inhibitors",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "ACE inhibitors (e.g., captopril, enalapril) block the conversion of angiotensin I to angiotensin II, reducing vasoconstriction and aldosterone secretion. Adverse effects include dry cough (due to bradykinin accumulation) and angioedema."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - ACE Inhibitors",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK557523/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - ACE inhibitor adverse effects",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31424792/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "31424792"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "clinical_reasoning",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.888Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-014",
+      "question": "Which of the following BEST distinguishes amlodipine from verapamil?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Amlodipine primarily acts on cardiac muscle; verapamil on vascular smooth muscle"
+        },
+        {
+          "key": "B",
+          "text": "Amlodipine primarily acts on vascular smooth muscle; verapamil has significant cardiac effects"
+        },
+        {
+          "key": "C",
+          "text": "Both have identical mechanisms and clinical effects"
+        },
+        {
+          "key": "D",
+          "text": "Amlodipine is contraindicated in hypertension; verapamil is not"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Amlodipine is a dihydropyridine (DHP) CCB that predominantly acts on vascular smooth muscle, causing vasodilation with minimal cardiac depression. Verapamil is a non-DHP CCB that acts on both cardiac muscle (negative chronotrope/inotrope) and SA/AV nodes, making it useful for rate control in SVT and angina.",
+      "difficulty": 3,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Calcium Channel Blockers",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Amlodipine is a dihydropyridine calcium channel blocker that primarily acts on vascular smooth muscle, causing vasodilation. It has minimal cardiac depressant effect compared to verapamil. Used for hypertension and angina."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Amlodipine",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK539772/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - CCBs in hypertension",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33001338/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "33001338"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "application",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.888Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-015",
+      "question": "Verapamil is effective in treating supraventricular tachycardia primarily because it:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Blocks sodium channels in ventricular myocytes"
+        },
+        {
+          "key": "B",
+          "text": "Prolongs the refractory period of the AV node"
+        },
+        {
+          "key": "C",
+          "text": "Increases conduction velocity through the AV node"
+        },
+        {
+          "key": "D",
+          "text": "Blocks potassium channels in atrial tissue"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Verapamil blocks L-type calcium channels in the SA and AV nodes, slowing AV nodal conduction and prolonging the refractory period. This interrupts reentrant circuits involving the AV node, terminating SVT. Verapamil is also effective for rate control in atrial fibrillation by reducing ventricular response rate.",
+      "difficulty": 3,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Calcium Channel Blockers",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Verapamil is a non-dihydropyridine calcium channel blocker that acts on cardiac muscle and SA/AV nodes. It is used for supraventricular tachycardia, angina, and hypertension. Causes constipation as a common side effect."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Verapamil",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK537163/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Verapamil clinical use",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/30658188/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "30658188"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "application",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.888Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-016",
+      "question": "Digoxin toxicity is characterized by all of the following EXCEPT:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Visual disturbances (yellow-green halos)"
+        },
+        {
+          "key": "B",
+          "text": "Ventricular bigeminy"
+        },
+        {
+          "key": "C",
+          "text": "Hyperkalemia"
+        },
+        {
+          "key": "D",
+          "text": "Torsades de pointes"
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "Digoxin toxicity classically presents with visual disturbances (xanthopsia - yellow-green vision), arrhythmias (ventricular bigeminy, atrial tachycardia with block), and hyperkalemia (due to Na+/K+ ATPase inhibition preventing potassium entry into cells). Torsades de pointes is associated with drugs that prolong QT interval (e.g., amiodarone, sotalol), not digoxin.",
+      "difficulty": 4,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Cardiac Glycosides",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Digoxin inhibits Na+/K+ ATPase, increasing intracellular sodium, which reduces calcium extrusion via Na+/Ca2+ exchanger, leading to increased cardiac contractility (positive inotrope). Used in heart failure with reduced ejection fraction and atrial fibrillation. Narrow therapeutic index: 0.5-2.0 ng/mL."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Digoxin",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK556005/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Digoxin in heart failure",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32349924/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "32349924"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "clinical_reasoning",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.888Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-017",
+      "question": "A 60-year-old male with acute myocardial infarction develops ventricular tachycardia. Which antiarrhythmic is MOST appropriate?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Verapamil"
+        },
+        {
+          "key": "B",
+          "text": "Lidocaine"
+        },
+        {
+          "key": "C",
+          "text": "Adenosine"
+        },
+        {
+          "key": "D",
+          "text": "Atropine"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Lidocaine (Class IB antiarrhythmic) is indicated for ventricular arrhythmias, especially in the setting of acute MI. It blocks sodium channels with rapid kinetics, preferentially affecting ischemic tissue. It has minimal effect on atrial tissue. Verapamil and adenosine are for SVT, and atropine is for bradycardia.",
+      "difficulty": 3,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Antiarrhythmics",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Lidocaine is a class IB antiarrhythmic that blocks sodium channels with rapid kinetics. It is used for ventricular arrhythmias, especially post-MI. It undergoes extensive first-pass metabolism and is given intravenously."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Lidocaine",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK551679/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Lidocaine antiarrhythmic",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31823253/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "31823253"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "clinical_reasoning",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.888Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-018",
+      "question": "A patient on long-term amiodarone therapy presents with dyspnea and dry cough. High-resolution CT shows pulmonary infiltrates. Which adverse effect is this?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hypersensitivity pneumonitis"
+        },
+        {
+          "key": "B",
+          "text": "Amiodarone-induced pulmonary fibrosis"
+        },
+        {
+          "key": "C",
+          "text": "Cardiogenic pulmonary edema"
+        },
+        {
+          "key": "D",
+          "text": "Bronchial asthma exacerbation"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Amiodarone can cause pulmonary toxicity, including interstitial pneumonitis and pulmonary fibrosis, due to accumulation of the drug in lung tissue and phospholipidosis. It is dose-related and potentially fatal. Other adverse effects include thyroid dysfunction (both hypo- and hyperthyroidism due to iodine content), hepatotoxicity, corneal microdeposits, and blue-gray skin discoloration. Baseline and periodic pulmonary function tests are recommended.",
+      "difficulty": 3,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Antiarrhythmics",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Amiodarone is a class III antiarrhythmic that prolongs the action potential duration by blocking potassium channels. It has multiple effects (also class I, II, IV) and can cause pulmonary fibrosis, thyroid dysfunction, liver toxicity, corneal deposits, and blue-gray skin discoloration."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Amiodarone",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK482154/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Amiodarone toxicity",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/32445564/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "32445564"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "clinical_reasoning",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.888Z",
+      "factCheckNotes": "All fact-check gates passed"
+    },
+    {
+      "id": "mcq-pharmacology-019",
+      "question": "Atorvastatin lowers LDL cholesterol by inhibiting which enzyme?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Acyl-CoA cholesterol acyltransferase (ACAT)"
+        },
+        {
+          "key": "B",
+          "text": "HMG-CoA reductase"
+        },
+        {
+          "key": "C",
+          "text": "Lipoprotein lipase"
+        },
+        {
+          "key": "D",
+          "text": "Cholesterol 7-alpha-hydroxylase"
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Atorvastatin (and all statins) competitively inhibits HMG-CoA reductase, the rate-limiting enzyme in the mevalonate pathway of cholesterol synthesis. This reduces intracellular cholesterol, leading to upregulation of LDL receptors on hepatocytes and increased LDL clearance from blood. Statins also have pleiotropic effects (anti-inflammatory, plaque stabilization).",
+      "difficulty": 1,
+      "subject": "Pharmacology",
+      "topicTags": [
+        "Pharmacology",
+        "Lipid-Lowering Drugs",
+        "statpearls",
+        "pubmed"
+      ],
+      "careerStage": "pg_prep",
+      "sourceFacts": [
+        "Atorvastatin is an HMG-CoA reductase inhibitor that lowers LDL cholesterol by inhibiting the rate-limiting step in cholesterol synthesis. Adverse effects include myopathy, hepatotoxicity, and increased risk of type 2 diabetes."
+      ],
+      "sources": [
+        {
+          "title": "StatPearls - Atorvastatin",
+          "url": "https://www.ncbi.nlm.nih.gov/books/NBK545226/",
+          "type": "statpearls",
+          "tier": 1,
+          "accessedDate": "2026-07-05"
+        },
+        {
+          "title": "PubMed - Statin therapy guidelines",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/33064565/",
+          "type": "pubmed",
+          "tier": 1,
+          "accessedDate": "2026-07-05",
+          "pmid": "33064565"
+        }
+      ],
+      "verificationStatus": "approved",
+      "generatedBy": "writer",
+      "cognitiveLevel": "recall",
+      "factCheckedBy": "factchecker",
+      "factCheckedAt": "2026-07-12T08:44:09.888Z",
+      "factCheckNotes": "All fact-check gates passed"
+    }
+  ],
+  "rejectionReasons": [],
+  "errors": []
+}

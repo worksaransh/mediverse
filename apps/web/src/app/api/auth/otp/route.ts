@@ -2,15 +2,17 @@ import { NextResponse } from "next/server";
 import { createDb, users, profiles } from "@mediverse/db";
 import { eq } from "drizzle-orm";
 import { createSession } from "@/lib/session";
+import { redis } from "@/lib/redis";
+import crypto from "crypto";
 
-// Global map to persist OTPs across API calls in development
-const globalAny = globalThis as any;
-globalAny.otps = globalAny.otps || new Map<string, string>();
-const otpStore = globalAny.otps;
+// Helper to hash OTP codes
+function hashOtp(code: string): string {
+  return crypto.createHash("sha256").update(code).digest("hex");
+}
 
 /**
  * POST /api/auth/otp
- * Request Phone OTP (MSG91 / Kaleyra stub)
+ * Request Phone OTP with real SMS gateway and Rate Limiting
  */
 export async function POST(req: Request) {
   try {
@@ -22,24 +24,92 @@ export async function POST(req: Request) {
       );
     }
 
-    // Generate 4-digit code (e.g. 1234 for testing/production stubs)
-    const code = phone.endsWith("00") ? "1234" : Math.floor(1000 + Math.random() * 9000).toString();
-    otpStore.set(phone, code);
+    // Retrieve client IP for rate limiting
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || req.headers.get("x-real-ip") || "127.0.0.1";
 
+    // Rate Limiting Check: Max 3 OTP requests per phone per hour
+    const phoneLimitKey = `rate:otp:phone:${phone}`;
+    const phoneCount = await redis.incr(phoneLimitKey);
+    if (phoneCount === 1) {
+      await redis.expire(phoneLimitKey, 3600); // 1 hour TTL
+    }
+    if (phoneCount > 3) {
+      return NextResponse.json(
+        { error: "Too many OTP requests for this phone number. Please try again in an hour." },
+        { status: 429 },
+      );
+    }
+
+    // Rate Limiting Check: Max 5 OTP requests per IP per hour
+    const ipLimitKey = `rate:otp:ip:${ip}`;
+    const ipCount = await redis.incr(ipLimitKey);
+    if (ipCount === 1) {
+      await redis.expire(ipLimitKey, 3600); // 1 hour TTL
+    }
+    if (ipCount > 5) {
+      return NextResponse.json(
+        { error: "Too many OTP requests from this location. Please try again in an hour." },
+        { status: 429 },
+      );
+    }
+
+    // Generate secure 6-digit OTP code (no hardcoded credentials)
+    const code = crypto.randomInt(100000, 999999).toString();
+    const hashed = hashOtp(code);
+
+    // Save hashed OTP in Redis with 5 minutes expiration
+    const otpKey = `otp:hash:${phone}`;
+    await redis.set(otpKey, hashed, 300); // 5 min expiry
+
+    // Reset verification attempt counter for this phone
+    const attemptKey = `otp:attempts:${phone}`;
+    await redis.del(attemptKey);
+
+    const provider = process.env.SMS_PROVIDER || "mock";
     const apiKey = process.env.SMS_PROVIDER_API_KEY;
-    if (apiKey && apiKey !== "your_sms_api_key") {
-      // Stub for real SMS API (MSG91 or Kaleyra)
-      console.log(`[Auth] Sending real SMS OTP to ${phone} using provider API.`);
-      // Real API integration would go here (e.g., fetch to MSG91 SendOTP endpoint)
+
+    if (provider === "msg91" && apiKey && apiKey !== "your_sms_api_key") {
+      const templateId = process.env.MSG91_TEMPLATE_ID || "";
+      const url = `https://control.msg91.com/api/v5/otp?template_id=${templateId}&mobile=${phone}&otp=${code}`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "authkey": apiKey
+        }
+      });
+      if (!res.ok) {
+        throw new Error(`MSG91 API error status: ${res.status}`);
+      }
+    } else if (provider === "kaleyra" && apiKey && apiKey !== "your_sms_api_key") {
+      const sid = process.env.KALEYRA_SID || "";
+      const sender = process.env.KALEYRA_SENDER || "";
+      const url = `https://api.kaleyra.io/v1/${sid}/messages`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "api-key": apiKey
+        },
+        body: new URLSearchParams({
+          to: phone,
+          type: "OTP",
+          sender: sender,
+          body: `Your Mediverse verification code is ${code}`
+        })
+      });
+      if (!res.ok) {
+        throw new Error(`Kaleyra API error status: ${res.status}`);
+      }
     } else {
-      console.log(`[Auth] SMS_PROVIDER_API_KEY not set. Mock OTP generated for ${phone}: ${code}`);
+      console.log(`[Auth Mock] SMS_PROVIDER not configured. Simulated OTP sent to ${phone}: ${code}`);
     }
 
     return NextResponse.json({ success: true, message: "OTP sent successfully" });
   } catch (error: any) {
     console.error("[Auth] Send OTP error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Failed to dispatch verification code. Please retry." },
       { status: 500 },
     );
   }
@@ -59,22 +129,48 @@ export async function PUT(req: Request) {
       );
     }
 
-    // OTP validation logic (Always allow "1234" for mock/Playwright testing)
-    const storedCode = otpStore.get(phone);
-    if (code !== "1234" && code !== storedCode) {
+    // 1. Verify and increment attempt lockout counter (Max 3 attempts per OTP)
+    const attemptKey = `otp:attempts:${phone}`;
+    const attempts = await redis.incr(attemptKey);
+    if (attempts === 1) {
+      await redis.expire(attemptKey, 300); // 5 min TTL matching OTP
+    }
+    if (attempts > 3) {
+      // Invalidate the OTP hash immediately on lockout
+      const otpKey = `otp:hash:${phone}`;
+      await redis.del(otpKey);
       return NextResponse.json(
-        { error: "Invalid verification code" },
+        { error: "Too many failed attempts. This verification code has been invalidated. Please request a new one." },
         { status: 400 },
       );
     }
 
-    // Clear code after use
-    otpStore.delete(phone);
+    // 2. Retrieve valid OTP hash from Redis
+    const otpKey = `otp:hash:${phone}`;
+    const storedHash = await redis.get(otpKey);
+    if (!storedHash) {
+      return NextResponse.json(
+        { error: "Verification code has expired or is invalid. Please request a new OTP." },
+        { status: 400 },
+      );
+    }
 
-    // Drizzle DB Connection
+    // Verify hash match
+    const hashedInput = hashOtp(code);
+    if (hashedInput !== storedHash) {
+      return NextResponse.json(
+        { error: "Incorrect verification code. Please check and try again." },
+        { status: 400 },
+      );
+    }
+
+    // Clear validation credentials after successful verification
+    await redis.del(otpKey);
+    await redis.del(attemptKey);
+
+    // 3. Connect to Database and authenticate user
     const db = createDb();
 
-    // 1. Find or create user
     let userRecord = await db.query.users.findFirst({
       where: eq(users.phone, phone),
     });
@@ -98,7 +194,7 @@ export async function PUT(req: Request) {
       
       userRecord = newUser;
     } else {
-      console.log(`[Auth] Existing user found. Updating lastLoginAt for id: ${userRecord.id}`);
+      console.log(`[Auth] Updating lastLoginAt for registered user: ${userRecord.id}`);
       await db
         .update(users)
         .set({ lastLoginAt: new Date() })
@@ -109,7 +205,7 @@ export async function PUT(req: Request) {
       throw new Error("Failed to resolve user record.");
     }
 
-    // 2. Find or create profile record (default pg_prep stage)
+    // Resolve or initialize profile record
     let profileRecord = await db.query.profiles.findFirst({
       where: eq(profiles.userId, userRecord.id),
     });
@@ -127,7 +223,7 @@ export async function PUT(req: Request) {
       profileRecord = newProfile;
     }
 
-    // 3. Set cookie session
+    // Establish encrypted cookie session
     await createSession(userRecord.id);
 
     return NextResponse.json({
@@ -137,7 +233,7 @@ export async function PUT(req: Request) {
   } catch (error: any) {
     console.error("[Auth] Verify OTP error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Internal server error during verification" },
       { status: 500 },
     );
   }

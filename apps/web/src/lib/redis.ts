@@ -75,4 +75,47 @@ export const redis = {
       memoryStore.delete(key);
     }
   },
+
+  async incr(key: string): Promise<number> {
+    if (useMemoryFallback || !redisClient) {
+      const current = Number(memoryStore.get(key) || 0) + 1;
+      memoryStore.set(key, current.toString());
+      return current;
+    }
+    try {
+      return await redisClient.incr(key);
+    } catch (e) {
+      const current = Number(memoryStore.get(key) || 0) + 1;
+      memoryStore.set(key, current.toString());
+      return current;
+    }
+  },
+
+  async expire(key: string, seconds: number): Promise<boolean> {
+    if (useMemoryFallback || !redisClient) {
+      // Setup automatic deletion in memory
+      setTimeout(() => {
+        memoryStore.delete(key);
+      }, seconds * 1000);
+      return true;
+    }
+    try {
+      const res = await redisClient.expire(key, seconds);
+      return res === 1;
+    } catch (e) {
+      return true;
+    }
+  },
+
+  async ttl(key: string): Promise<number> {
+    if (useMemoryFallback || !redisClient) {
+      return 60; // Mock default remaining TTL
+    }
+    try {
+      return await redisClient.ttl(key);
+    } catch (e) {
+      return 60;
+    }
+  },
 };
+

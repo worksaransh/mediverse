@@ -5,6 +5,7 @@
  * Requires DATABASE_URL in environment.
  */
 
+import { sql } from "drizzle-orm";
 import { createDb } from "./client";
 import {
   users,
@@ -15,12 +16,23 @@ import {
   contentItems,
   mcqs,
   subscriptions,
+  studyGroups,
+  studyGroupMembers,
+  studyGroupMessages,
 } from "./schema";
 
 async function seed() {
   const db = createDb();
 
   console.log("🌱  Seeding Mediverse database…\n");
+
+  console.log("🧹  Cleaning up existing test data…");
+  try {
+    await db.execute(sql`TRUNCATE TABLE users, colleges, sources, achievements, organizations CASCADE;`);
+    console.log("🧹  Cleanup complete.\n");
+  } catch (cleanError) {
+    console.warn("⚠️  Cleanup warning (some tables may not exist or be empty):", cleanError);
+  }
 
   /* ─── Colleges ──────────────────────────── */
 
@@ -234,6 +246,90 @@ async function seed() {
   }
 
   console.log(`  ✅ ${insertedUsers.length} subscriptions inserted`);
+
+  /* ─── Study Groups ──────────────────────── */
+
+  const [group1, group2] = await db
+    .insert(studyGroups)
+    .values([
+      {
+        name: "NEET PG Cardiology Prep",
+        description: "A collaborative circle focusing on cardiology high-yield topics, ECG revisions, and clinical questions.",
+        examTarget: "NEET PG",
+        ownerId: insertedUsers[0]!.id,
+        inviteCode: "CARDIO-PG",
+        isPublic: true,
+        maxMembers: 50,
+        memberCount: 2,
+      },
+      {
+        name: "AIIMS Pharmacology Study Circle",
+        description: "Daily drug cards, mechanisms of action, and receptor interactions study group.",
+        examTarget: "AIIMS",
+        ownerId: insertedUsers[1]!.id,
+        inviteCode: "PHARM-AIIMS",
+        isPublic: true,
+        maxMembers: 30,
+        memberCount: 2,
+      },
+    ])
+    .returning();
+
+  console.log(`  ✅ 2 study groups inserted`);
+
+  /* ─── Study Group Members ─────────────────── */
+
+  await db.insert(studyGroupMembers).values([
+    {
+      groupId: group1!.id,
+      userId: insertedUsers[0]!.id,
+      role: "owner",
+    },
+    {
+      groupId: group1!.id,
+      userId: insertedUsers[1]!.id,
+      role: "member",
+    },
+    {
+      groupId: group2!.id,
+      userId: insertedUsers[1]!.id,
+      role: "owner",
+    },
+    {
+      groupId: group2!.id,
+      userId: insertedUsers[2]!.id,
+      role: "member",
+    },
+  ]);
+
+  console.log(`  ✅ study group memberships inserted`);
+
+  /* ─── Study Group Messages ────────────────── */
+
+  await db.insert(studyGroupMessages).values([
+    {
+      groupId: group1!.id,
+      userId: insertedUsers[0]!.id,
+      content: "Welcome everyone! Let's start with ECG changes in acute myocardial infarction.",
+    },
+    {
+      groupId: group1!.id,
+      userId: insertedUsers[1]!.id,
+      content: "Great idea! Hyperacute T waves are the earliest sign, followed by ST elevation.",
+    },
+    {
+      groupId: group2!.id,
+      userId: insertedUsers[1]!.id,
+      content: "Hey Priya, did you review the G-protein coupled receptor pathways?",
+    },
+    {
+      groupId: group2!.id,
+      userId: insertedUsers[2]!.id,
+      content: "Yes, Gs stimulates adenylyl cyclase, whereas Gi inhibits it. Let's list some examples.",
+    },
+  ]);
+
+  console.log(`  ✅ study group messages inserted`);
 
   /* ─── Done ──────────────────────────────── */
 
