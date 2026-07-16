@@ -363,7 +363,7 @@ export async function searchYouTube(query: string, maxResults = 10): Promise<Vid
     // Call videos API to fetch content details (durations)
     const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoIds.join(",")}&key=${apiKey}`;
     const detailsRes = await fetch(detailsUrl);
-    let durations: Record<string, string> = {};
+    const durations: Record<string, string> = {};
     if (detailsRes.ok) {
       const detailsData = await detailsRes.json();
       (detailsData.items || []).forEach((item: any) => {

@@ -12,5 +12,5 @@
     "lint": "echo 'config: no lint'",
     "typecheck": "echo 'config: no typecheck'",
     "test": "echo 'config: no tests'"
-  }
-}
+  },
+ 

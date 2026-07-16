@@ -13,6 +13,7 @@ import { sql } from "drizzle-orm";
 import { contentTypeEnum, contentStatusEnum } from "./enums";
 import { users } from "./users";
 import { customVector } from "./helpers";
+import { topics } from "./curriculum";
 
 /* ═══════════════════════════════════════════
    SOURCES — where content originates
@@ -61,6 +62,7 @@ export const contentItems = pgTable(
       .array()
       .default(sql`'{}'::text[]`)
       .notNull(),
+    topicId: uuid("topic_id").references(() => topics.id),
     embedding: customVector("embedding", { dimensions: 768 }),
     status: contentStatusEnum("status").default("draft").notNull(),
     publishedAt: timestamp("published_at", { withTimezone: true }),
@@ -76,6 +78,7 @@ export const contentItems = pgTable(
     audienceTagsIdx: index("idx_content_audience_tags").using("gin", table.audienceTags),
     specialtyTagsIdx: index("idx_content_specialty_tags").using("gin", table.specialtyTags),
     topicTagsIdx: index("idx_content_topic_tags").using("gin", table.topicTags),
+    topicIdx: index("idx_content_topic_id").on(table.topicId),
     // B-tree composite for status + published_at queries
     statusPublishedIdx: index("idx_content_status_published").on(
       table.status,
@@ -112,8 +115,4 @@ export const papers = pgTable(
       .$onUpdate(() => new Date()),
   },
   (table) => ({
-    pmidIdx: index("idx_papers_pmid").on(table.pmid),
-    doiIdx: index("idx_papers_doi").on(table.doi),
-    meshIdx: index("idx_papers_mesh_terms").using("gin", table.meshTerms),
-  }),
-);
+    pmidIdx: index("idx_pape

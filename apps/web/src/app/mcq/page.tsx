@@ -382,7 +382,7 @@ export default function MCQPracticePage() {
                     </div>
 
                     <div className="p-4 bg-[#0f1513] border-l-4 border-[#0fa891] rounded-r text-xs italic">
-                      "Make sure to record these key topic parameters for clinical review. Your current mastery level for {currentQuestion.subject} is now {(attemptResult.accuracyEma * 100).toFixed(0)}%."
+                      &quot;Make sure to record these key topic parameters for clinical review. Your current mastery level for {currentQuestion.subject} is now {(attemptResult.accuracyEma * 100).toFixed(0)}%.&quot;
                     </div>
                   </div>
                 )}
@@ -420,6 +420,4 @@ export default function MCQPracticePage() {
           )}
         </div>
       </footer>
-    </div>
-  );
-}
+    </di

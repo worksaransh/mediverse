@@ -1,7 +1,12 @@
 import { cookies, headers } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
 
-const SECRET_KEY = process.env.JWT_SECRET || "mediverse-super-secret-key-1234567890";
+const SECRET_KEY = process.env.JWT_SECRET;
+if (!SECRET_KEY) {
+  throw new Error(
+    "JWT_SECRET environment variable must be set. Refusing to start with an insecure default secret.",
+  );
+}
 const key = new TextEncoder().encode(SECRET_KEY);
 
 export interface SessionPayload {
@@ -55,7 +60,4 @@ export async function getSession() {
   return await decrypt(session);
 }
 
-export async function deleteSession() {
-  const cookieStore = await cookies();
-  cookieStore.delete("mediverse_session");
-}
+export async funct

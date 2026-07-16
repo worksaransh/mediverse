@@ -29,6 +29,18 @@ export interface AIProfile {
   recommended_resources: string[];
 }
 
+export interface FlashcardGenerationParams {
+  subject: string;
+  topic: string;
+  count?: number;
+}
+
+export interface GeneratedFlashcard {
+  front: string;
+  back: string;
+  hint?: string;
+}
+
 /**
  * Clean, zero-dependency REST query helper for Google Gemini API.
  */
@@ -227,6 +239,79 @@ Do NOT include any codeblocks, markdowns, or explanations. Respond with ONLY the
 }
 
 /**
+ * Generate a deck of AI flashcards (front/back/hint) for a given subject + topic.
+ * Falls back to Gemini, then to a deterministic mock deck if neither AI provider
+ * is configured, mirroring the fallback pattern used by generateAIProfile/askMentor.
+ */
+export async function generateFlashcards(
+  params: FlashcardGenerationParams,
+): Promise<GeneratedFlashcard[]> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const count = Math.min(Math.max(params.count ?? 10, 1), 25);
+
+  const mockDeck = (): GeneratedFlashcard[] =>
+    Array.from({ length: count }, (_, i) => ({
+      front: `[Mock] Key concept #${i + 1} in ${params.topic} (${params.subject})`,
+      back: `[Mock] Configure ANTHROPIC_API_KEY or GEMINI_API_KEY for real AI-generated flashcards. Placeholder answer for concept #${i + 1}.`,
+      hint: `Review your ${params.subject} notes on ${params.topic}.`,
+    }));
+
+  const prompt = `You are a medical education flashcard writer. Create exactly ${count} high-yield flashcards for the topic "${params.topic}" within the subject "${params.subject}", targeted at NEET/JEE and medical exam preparation in India.
+
+Return a raw JSON array (no markdown, no code blocks, no explanation) where each element is an object with exactly these keys:
+- "front" (string: a concise question or term)
+- "back" (string: the concise correct answer or definition)
+- "hint" (string: a short optional memory aid, can be an empty string)
+
+Respond with ONLY the raw JSON array.`;
+
+  const parseCards = (raw: string): GeneratedFlashcard[] | null => {
+    try {
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return null;
+      const cards = parsed
+        .filter((c: any) => c && typeof c.front === "string" && typeof c.back === "string")
+        .map((c: any) => ({
+          front: c.front,
+          back: c.back,
+          hint: typeof c.hint === "string" && c.hint.length > 0 ? c.hint : undefined,
+        }));
+      return cards.length > 0 ? cards : null;
+    } catch {
+      return null;
+    }
+  };
+
+  if (!apiKey || apiKey === "sk-ant-xxxxx") {
+    const geminiResponse = await callGemini(prompt, undefined, "application/json");
+    const parsed = geminiResponse ? parseCards(geminiResponse) : null;
+    if (parsed) return parsed;
+
+    console.warn("[AI] Neither Anthropic nor Gemini API key set (or response unparseable) — returning mock flashcard deck");
+    return mockDeck();
+  }
+
+  try {
+    const anthropic = new Anthropic({ apiKey });
+    const response = await anthropic.messages.create({
+      model: "claude-3-5-haiku-latest",
+      max_tokens: 2000,
+      messages: [{ role: "user", content: prompt }],
+    });
+
+    const text = response.content[0]?.type === "text" ? response.content[0].text.trim() : "";
+    const parsed = parseCards(text);
+    if (parsed) return parsed;
+
+    console.warn("[AI] Failed to parse Claude flashcard JSON, returning mock deck:", text);
+    return mockDeck();
+  } catch (error) {
+    console.error("[AI] Error calling Anthropic for flashcard generation:", error);
+    return mockDeck();
+  }
+}
+
+/**
  * Classifies an incoming student prompt.
  */
 export async function routeIntent(prompt: string): Promise<string> {
@@ -367,88 +452,4 @@ export async function generateMentorResponse(params: MentorResponseParams): Prom
 
   if (!apiKey || apiKey === "sk-ant-xxxxx") {
     // Attempt Gemini Fallback
-    const geminiAnswer = await callGemini(`${contextBlock}\n\nQuery: "${params.prompt}"`, systemPrompt);
-    if (geminiAnswer) {
-      const citedContentIds: string[] = [];
-      const matches = geminiAnswer.match(/\[feed-item-\d+\]/g);
-      if (matches) {
-        matches.forEach((m) => {
-          const cleanedId = m.replace(/[\[\]]/g, "");
-          if (!citedContentIds.includes(cleanedId)) {
-            citedContentIds.push(cleanedId);
-          }
-        });
-      }
-      return {
-        answer: geminiAnswer.startsWith("AI-generated: ") ? geminiAnswer : `AI-generated: ${geminiAnswer}`,
-        citedContentIds,
-        flagged: false,
-      };
-    }
-
-    // Default Mock Response Fallback
-    let mockAnswer = "AI-generated: ";
-    let citedContentIds: string[] = [];
-
-    if (params.intent === "research_query") {
-      mockAnswer += `Based on the latest literature [feed-item-3], breast neoplasms exhibit distinct HER2 overexpression profiles that guide therapeutic selections. We currently lack other relevant literature citations in our database for further extensions.`;
-      citedContentIds = ["feed-item-3"];
-    } else if (params.intent === "news_query") {
-      mockAnswer += `The Lancet has highlighted significant guidelines regarding clinical and surgical trials [feed-item-8], showing wound repair maturation dynamics.`;
-      citedContentIds = ["feed-item-8"];
-    } else if (params.intent === "study_plan") {
-      mockAnswer += `Since your target exam is ${targetYear}, let's focus on structured recall blocks. I recommend setting up daily MCQ practice sets, specifically targeting your onboarding focus area: ${weakSubjects}.`;
-    } else {
-      mockAnswer += `Let's break down this concept. Physiological mechanisms suggest that renal filtration rates are dependent on hydrostatic pressure gradients. I recommend reviewing glomerular lesions in renal pathology next.`;
-    }
-
-    return {
-      answer: mockAnswer,
-      citedContentIds,
-      flagged: false,
-    };
-  }
-
-  // Real LLM Call using Claude Sonnet/Haiku
-  try {
-    const anthropic = new Anthropic({ apiKey });
-    const response = await anthropic.messages.create({
-      model: "claude-3-5-sonnet-latest",
-      max_tokens: 1500,
-      system: systemPrompt,
-      messages: [
-        {
-          role: "user",
-          content: `${contextBlock}\n\nQuery: "${params.prompt}"`,
-        },
-      ],
-    });
-
-    const answer = response.content[0]?.type === "text" ? response.content[0].text : "No response content found.";
-    
-    // Parse cited_content_ids out of the text (e.g. looking for brackets [feed-item-X])
-    const citedContentIds: string[] = [];
-    const matches = answer.match(/\[feed-item-\d+\]/g);
-    if (matches) {
-      matches.forEach((m) => {
-        const cleanedId = m.replace(/[\[\]]/g, "");
-        if (!citedContentIds.includes(cleanedId)) {
-          citedContentIds.push(cleanedId);
-        }
-      });
-    }
-
-    return {
-      answer,
-      citedContentIds,
-      flagged: false,
-    };
-  } catch (error: any) {
-    console.error("[AI Mentor] Error in generative call:", error);
-    return {
-      answer: "AI-generated: I encountered an error when communicating with the mentor service. Please try again.",
-      citedContentIds: [],
-      flagged: false,
-    };
-  }
-}
+    const geminiAnswer = await callG

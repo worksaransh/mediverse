@@ -381,7 +381,7 @@ export default function AdminDashboardPage() {
                       <span>⚠ Unsafe Clinical Request</span>
                       <span>{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
-                    <p className="text-xs text-white italic">"{msg.content}"</p>
+                    <p className="text-xs text-white italic">&quot;{msg.content}&quot;</p>
                     <button
                       onClick={() => handleAction("clear_flag", msg.id)}
                       className="w-full py-1.5 bg-[#0fa891]/20 hover:bg-[#5cdbc2]/30 border border-[#0fa891]/30 text-[#5cdbc2] font-semibold text-[10px] uppercase tracking-wider rounded-lg transition-colors"
@@ -449,6 +449,4 @@ export default function AdminDashboardPage() {
         </div>
 
       </main>
-    </div>
-  );
-}
+    </div>

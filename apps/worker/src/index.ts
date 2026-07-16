@@ -122,14 +122,14 @@ try {
     console.warn("[Worker] Redis connection error (using native backup scheduler):", err.message);
   });
 
-  async function handleIngestionJob(job: Job) {
+  const handleIngestionJob = async (job: Job) => {
     console.log(`[Worker] Processing Ingestion Job ${job.id}: query="${job.data.query}"`);
     const results = await searchPubMed(job.data.query);
     console.log(`[Worker] Ingested ${results.length} articles from PubMed.`);
     return { success: true, count: results.length };
-  }
+  };
 
-  async function handleAIMentorJob(job: Job) {
+  const handleAIMentorJob = async (job: Job) => {
     console.log(`[Worker] Processing AI Mentor Job ${job.id}: question="${job.data.question}"`);
     const response = await askMentor({
       question: job.data.question,
@@ -137,7 +137,7 @@ try {
     });
     console.log(`[Worker] AI Mentor Job completed. Response snippet: "${response.answer.slice(0, 50)}..."`);
     return { success: true, answer: response.answer };
-  }
+  };
 
   worker = new Worker(
     "mediverse-tasks",
@@ -170,4 +170,4 @@ try {
   console.warn("[Worker] BullMQ / Redis failed to initialize. Relying solely on native backup scheduler:", e.message);
 }
 
-export { taskQueue };
+export { taskQu

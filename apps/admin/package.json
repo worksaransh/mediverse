@@ -6,7 +6,7 @@
     "build": "next build",
     "dev": "next dev --port 3001",
     "start": "next start",
-    "lint": "echo 'lint: not configured'",
+    "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "echo 'No tests yet'"
   },
@@ -18,7 +18,7 @@
     "@mediverse/db": "workspace:*",
     "@mediverse/ai": "workspace:*",
     "@mediverse/ingestion": "workspace:*",
-    "drizzle-orm": "^0.39.0",
+    "drizzle-orm": "^0.45.2",
     "jose": "^5.9.6",
     "ioredis": "^5.4.1"
   },
@@ -30,6 +30,5 @@
     "@types/node": "^22.0.0",
     "tailwindcss": "^3.4.0",
     "postcss": "^8.4.0",
-    "autoprefixer": "^10.4.0"
-  }
-}
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.57.0"

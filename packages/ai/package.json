@@ -7,9 +7,9 @@
   "exports": { ".": "./src/index.ts" },
   "scripts": {
     "build": "tsc --noEmit",
-    "lint": "echo 'lint: not configured'",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings=-1",
     "typecheck": "tsc --noEmit",
-    "test": "echo 'No tests yet'"
+    "test": "vitest run"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0"
@@ -17,6 +17,4 @@
   "devDependencies": {
     "@mediverse/config": "workspace:*",
     "typescript": "^5.7.0",
-    "@types/node": "^22.0.0"
-  }
-}
+    "@types/node": "^22.0.0",

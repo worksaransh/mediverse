@@ -119,9 +119,39 @@ export default async function DashboardPage() {
                   📚 Start Practice MCQs
                 </Button>
               </a>
+              <a href="/quiz" className="block w-full" id="start-quiz-btn">
+                <Button variant="secondary" className="w-full justify-center">
+                  📝 Generate a Test
+                </Button>
+              </a>
+              <a href="/flashcards" className="block w-full" id="start-flashcards-btn">
+                <Button variant="secondary" className="w-full justify-center">
+                  🗂️ AI Flashcards
+                </Button>
+              </a>
               <a href="/mentor" className="block w-full" id="start-chat-btn">
                 <Button variant="secondary" className="w-full justify-center">
                   💬 Chat with AI Mentor
+                </Button>
+              </a>
+              <a href="/mentorship" className="block w-full" id="start-mentorship-btn">
+                <Button variant="secondary" className="w-full justify-center">
+                  🎓 Mentorship
+                </Button>
+              </a>
+              <a href="/community" className="block w-full" id="start-community-btn">
+                <Button variant="secondary" className="w-full justify-center">
+                  👥 Community
+                </Button>
+              </a>
+              <a href="/jobs" className="block w-full" id="start-jobs-btn">
+                <Button variant="secondary" className="w-full justify-center">
+                  💼 Career Marketplace
+                </Button>
+              </a>
+              <a href="/research" className="block w-full" id="start-research-btn">
+                <Button variant="secondary" className="w-full justify-center">
+                  🔬 Research
                 </Button>
               </a>
             </div>
@@ -170,39 +200,4 @@ export default async function DashboardPage() {
                   </li>
                 ))}
                 {(!aiProfile.weekly_goals || aiProfile.weekly_goals.length === 0) && (
-                  <li className="text-sm text-slate-500 italic">No specific goals set.</li>
-                )}
-              </ul>
-            </Card>
-
-            {/* Recommended Resources */}
-            <Card className="border-[#3d4946] bg-[#171d1b]">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-[#86948f] mb-4">
-                📖 Recommended Resources
-              </h3>
-              <ul className="space-y-3" id="recommended-resources">
-                {aiProfile.recommended_resources && aiProfile.recommended_resources.map((resource: string, idx: number) => (
-                  <li key={idx} className="flex gap-3 text-sm text-slate-300 items-start">
-                    <span className="text-[#5cdbc2] font-bold mt-0.5">✔</span>
-                    <span>{resource}</span>
-                  </li>
-                ))}
-                {(!aiProfile.recommended_resources || aiProfile.recommended_resources.length === 0) && (
-                  <li className="text-sm text-slate-500 italic">No resources recommended.</li>
-                )}
-              </ul>
-            </Card>
-          </div>
-
-          {/* Recommended Discover Feed */}
-          <div className="mt-8 border-t border-[#3d4946]/40 pt-8">
-            <h4 className="font-semibold text-xs tracking-widest text-[#86948f] uppercase mb-6">
-              Recommended for you
-            </h4>
-            <DiscoverFeed />
-          </div>
-        </div>
-      </main>
-    </div>
-  );
-}
+                  <li className="text

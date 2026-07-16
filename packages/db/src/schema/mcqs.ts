@@ -12,6 +12,7 @@ import {
 import { sql } from "drizzle-orm";
 import { users } from "./users";
 import { contentItems } from "./content";
+import { topics } from "./curriculum";
 
 /* ═══════════════════════════════════════════
    MCQs — Multiple Choice Questions
@@ -32,6 +33,7 @@ export const mcqs = pgTable(
       .array()
       .default(sql`'{}'::text[]`)
       .notNull(),
+    topicId: uuid("topic_id").references(() => topics.id),
     sourceReference: text("source_reference"),
     verified: boolean("verified").default(false).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -43,6 +45,7 @@ export const mcqs = pgTable(
   (table) => ({
     subjectIdx: index("idx_mcqs_subject").on(table.subject),
     topicTagsIdx: index("idx_mcqs_topic_tags").using("gin", table.topicTags),
+    topicIdIdx: index("idx_mcqs_topic_id").on(table.topicId),
     difficultyIdx: index("idx_mcqs_difficulty").on(table.difficulty),
   }),
 );
@@ -69,8 +72,4 @@ export const mcqAttempts = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => ({
-    userIdx: index("idx_mcq_attempts_user").on(table.userId),
-    mcqIdx: index("idx_mcq_attempts_mcq").on(table.mcqId),
-    createdAtIdx: index("idx_mcq_attempts_created").on(table.createdAt),
-  }),
-);
+    userIdx: index("idx_mcq_attempts_user")

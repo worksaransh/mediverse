@@ -83,7 +83,7 @@ export default function Home() {
               </h1>
               
               <p className="text-[#bccac4] text-lg max-w-md">
-                The "Career OS" for medical professionals. Master high-stakes residency entrance exams with adaptive rigor, customized mock questions, and clinical precision.
+                The &ldquo;Career OS&rdquo; for medical professionals. Master high-stakes residency entrance exams with adaptive rigor, customized mock questions, and clinical precision.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
@@ -143,7 +143,7 @@ export default function Home() {
                       <span className="material-symbols-outlined text-[#5cdbc2] text-sm">smart_toy</span>
                     </div>
                     <div className="bg-[#171d1b] border border-[#3d4946]/20 p-3 rounded-xl space-y-2">
-                      <p className="text-[9px] font-bold uppercase tracking-wider text-[#bccac4]">TODAY'S STUDY GOAL</p>
+                      <p className="text-[9px] font-bold uppercase tracking-wider text-[#bccac4]">TODAY&apos;S STUDY GOAL</p>
                       <div className="flex justify-between items-end">
                         <span className="font-mono text-xl text-[#5cdbc2]">12/15</span>
                         <span className="text-[9px] text-[#bccac4]">Minutes</span>
@@ -356,6 +356,4 @@ export default function Home() {
           </p>
         </div>
       </footer>
-    </div>
-  );
-}
+ 

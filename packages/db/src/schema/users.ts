@@ -11,7 +11,7 @@ import {
   jsonb,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-import { userRoleEnum, careerStageEnum } from "./enums";
+import { userRoleEnum, careerStageEnum, examTargetEnum, academicStreamEnum } from "./enums";
 import { colleges } from "./orgs";
 import { customVector } from "./helpers";
 
@@ -59,6 +59,8 @@ export const profiles = pgTable(
       .notNull()
       .unique(),
     careerStage: careerStageEnum("career_stage").default("pg_prep").notNull(),
+    examTarget: examTargetEnum("exam_target").default("none").notNull(),
+    academicStream: academicStreamEnum("academic_stream").default("not_applicable").notNull(),
     examTargetYear: integer("exam_target_year"),
     collegeId: uuid("college_id").references(() => colleges.id),
     specialization: varchar("specialization", { length: 255 }),
@@ -66,12 +68,4 @@ export const profiles = pgTable(
     onboardingCompleted: boolean("onboarding_completed").default(false).notNull(),
     aiProfile: jsonb("ai_profile"),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true })
-      .defaultNow()
-      .notNull()
-      .$onUpdate(() => new Date()),
-  },
-  (table) => ({
-    userIdIdx: uniqueIndex("idx_profiles_user_id").on(table.userId),
-  }),
-);
+    updatedAt: timestamp("updat

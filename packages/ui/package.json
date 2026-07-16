@@ -7,7 +7,7 @@
   "exports": { ".": "./src/index.ts" },
   "scripts": {
     "build": "tsc --noEmit",
-    "lint": "echo 'lint: not configured'",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings=-1",
     "typecheck": "tsc --noEmit",
     "test": "echo 'No tests yet'"
   },
@@ -17,6 +17,4 @@
   "devDependencies": {
     "@mediverse/config": "workspace:*",
     "typescript": "^5.7.0",
-    "@types/react": "^19.0.0"
-  }
-}
+    "@types/react": "^

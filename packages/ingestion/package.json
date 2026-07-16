@@ -7,16 +7,14 @@
   "exports": { ".": "./src/index.ts" },
   "scripts": {
     "build": "tsc --noEmit",
-    "lint": "echo 'lint: not configured'",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings=-1",
     "typecheck": "tsc --noEmit",
     "test": "echo 'No tests yet'"
   },
   "dependencies": {
-    "drizzle-orm": "^0.39.0"
+    "drizzle-orm": "^0.45.2"
   },
   "devDependencies": {
     "@mediverse/config": "workspace:*",
     "typescript": "^5.7.0",
-    "@types/node": "^22.0.0"
-  }
-}
+    "@types/node": "^22.

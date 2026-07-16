@@ -1,5 +1,5 @@
 /** @type {import('eslint').Linter.Config} */
-module.exports = {
+const base = {
   extends: ["eslint:recommended"],
   env: {
     node: true,
@@ -9,5 +9,8 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  ignorePatterns: ["node_modules/", "dist/", ".next/", ".turbo/"],
-};
+  ignorePatterns: [
+    "node_modules/",
+    "dist/",
+    ".next/",
+    "b

@@ -3,7 +3,12 @@ import { jwtVerify } from "jose";
 import { createDb, users } from "@mediverse/db";
 import { eq } from "drizzle-orm";
 
-const SECRET_KEY = process.env.JWT_SECRET || "mediverse-super-secret-key-1234567890";
+const SECRET_KEY = process.env.JWT_SECRET;
+if (!SECRET_KEY) {
+  throw new Error(
+    "JWT_SECRET environment variable must be set. Refusing to start with an insecure default secret.",
+  );
+}
 const key = new TextEncoder().encode(SECRET_KEY);
 
 export async function verifyAdminSession() {
@@ -26,8 +31,4 @@ export async function verifyAdminSession() {
 
     if (!userRecord) return null;
     return userRecord;
-  } catch (error) {
-    console.error("[verifyAdminSession] Authentication failed:", error);
-    return null;
-  }
-}
+  } catch (

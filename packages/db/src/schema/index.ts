@@ -2,6 +2,7 @@
 
 export * from "./enums";
 export * from "./helpers";
+export * from "./curriculum"; // subjects, chapters, topics
 export * from "./orgs";       // colleges, organizations, org_memberships (before users due to FK)
 export * from "./users";      // users, profiles
 export * from "./content";    // sources, content_items, papers
@@ -17,4 +18,4 @@ export * from "./flashcards";    // flashcard_decks, flashcards, flashcard_revie
 export * from "./quiz-sessions"; // quiz_sessions, quiz_session_questions
 export * from "./study-groups";  // study_groups, study_group_members, study_group_messages
 export * from "./gamification";  // leaderboard_snapshots, achievements, user_achievements, user_xp_log
-export * from "./platform";     // announcements, reports, waitlist
+export *

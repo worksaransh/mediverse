@@ -39,7 +39,7 @@ export default function TermsOfServicePage() {
           <section>
             <h2 className="text-lg font-bold text-white mb-2">3. User Responsibility</h2>
             <p>
-              Users are solely responsible for verifying clinical facts, drug dosages, and guidelines against standard textbook medical references (e.g., Harrison's, Robbins, Bailey & Love) before making clinical decisions or board exam preparations.
+              Users are solely responsible for verifying clinical facts, drug dosages, and guidelines against standard textbook medical references (e.g., Harrison&apos;s, Robbins, Bailey & Love) before making clinical decisions or board exam preparations.
             </p>
           </section>
 
@@ -52,5 +52,4 @@ export default function TermsOfServicePage() {
         </div>
       </div>
     </div>
-  );
-}
+  

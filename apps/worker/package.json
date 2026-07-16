@@ -6,7 +6,7 @@
     "build": "tsup",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.mjs",
-    "lint": "echo 'lint: not configured'",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings=-1",
     "typecheck": "tsc --noEmit",
     "test": "tsx src/test-digest.ts"
   },
@@ -21,10 +21,7 @@
     "@mediverse/db": "workspace:*",
     "@mediverse/ingestion": "workspace:*",
     "@types/node": "^22.0.0",
-    "drizzle-orm": "^0.39.0",
-    "ioredis-mock": "^8.13.1",
-    "tsup": "^8.0.0",
-    "tsx": "^4.0.0",
-    "typescript": "^5.7.0"
-  }
-}
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "drizzle-orm": "^0.45.2",
+  
