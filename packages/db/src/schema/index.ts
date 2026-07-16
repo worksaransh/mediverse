@@ -18,4 +18,9 @@ export * from "./flashcards";    // flashcard_decks, flashcards, flashcard_revie
 export * from "./quiz-sessions"; // quiz_sessions, quiz_session_questions
 export * from "./study-groups";  // study_groups, study_group_members, study_group_messages
 export * from "./gamification";  // leaderboard_snapshots, achievements, user_achievements, user_xp_log
-export *
+export * from "./platform";     // announcements, reports, waitlist
+
+/* ─── Phase 2: Mentorship, Career Marketplace, Research ─── */
+export * from "./mentorship";    // mentor_profiles, mentorship_sessions
+export * from "./jobs";          // job_listings, job_applications
+export * from "./research";      // research_projects, research_collaborators

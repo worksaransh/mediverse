@@ -170,4 +170,4 @@ try {
   console.warn("[Worker] BullMQ / Redis failed to initialize. Relying solely on native backup scheduler:", e.message);
 }
 
-export { taskQu
+export { taskQueue };

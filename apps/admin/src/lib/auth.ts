@@ -31,4 +31,8 @@ export async function verifyAdminSession() {
 
     if (!userRecord) return null;
     return userRecord;
-  } catch (
+  } catch (error) {
+    console.error("[verifyAdminSession] Authentication failed:", error);
+    return null;
+  }
+}

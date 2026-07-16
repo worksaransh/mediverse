@@ -115,4 +115,8 @@ export const papers = pgTable(
       .$onUpdate(() => new Date()),
   },
   (table) => ({
-    pmidIdx: index("idx_pape
+    pmidIdx: index("idx_papers_pmid").on(table.pmid),
+    doiIdx: index("idx_papers_doi").on(table.doi),
+    meshIdx: index("idx_papers_mesh_terms").using("gin", table.meshTerms),
+  }),
+);

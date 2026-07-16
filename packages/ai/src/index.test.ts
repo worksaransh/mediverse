@@ -86,4 +86,41 @@ describe("generateMentorResponse — safety veto", () => {
     const result = await generateMentorResponse({
       userId: "test-user",
       prompt: "What's a good weekly study plan for Pharmacology?",
-      intent
+      intent: "study_plan",
+    });
+
+    // With no API keys configured this resolves via the mock fallback path,
+    // not the safety veto — flagged must stay false and the canned safety
+    // disclaimer text must not appear.
+    expect(result.flagged).toBe(false);
+    expect(result.answer).not.toContain("not a doctor");
+  });
+});
+
+describe("generateFlashcards — mock fallback (no AI keys configured)", () => {
+  it("returns the requested number of cards, each with front and back text", async () => {
+    const cards = await generateFlashcards({ subject: "Biology", topic: "Cell Membrane", count: 5 });
+    expect(cards).toHaveLength(5);
+    cards.forEach((card) => {
+      expect(typeof card.front).toBe("string");
+      expect(card.front.length).toBeGreaterThan(0);
+      expect(typeof card.back).toBe("string");
+      expect(card.back.length).toBeGreaterThan(0);
+    });
+  });
+
+  it("clamps the requested count to a maximum of 25", async () => {
+    const cards = await generateFlashcards({ subject: "Chemistry", topic: "Chemical Bonding", count: 999 });
+    expect(cards).toHaveLength(25);
+  });
+
+  it("clamps the requested count to a minimum of 1", async () => {
+    const cards = await generateFlashcards({ subject: "Physics", topic: "Laws of Motion", count: 0 });
+    expect(cards).toHaveLength(1);
+  });
+
+  it("defaults to 10 cards when no count is specified", async () => {
+    const cards = await generateFlashcards({ subject: "Mathematics", topic: "Calculus" });
+    expect(cards).toHaveLength(10);
+  });
+});

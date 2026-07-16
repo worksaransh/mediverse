@@ -93,4 +93,21 @@ export const aiMessageRoleEnum = pgEnum("ai_message_role", [
 /* ─── Feed ───────────────────────────────── */
 
 export const feedEventTypeEnum = pgEnum("feed_event_type", [
-  
+  "content_viewed",
+  "content_completed",
+  "quiz_started",
+  "quiz_completed",
+  "streak_updated",
+  "bookmark_added",
+  "ai_query",
+]);
+
+/* ─── Notifications ──────────────────────── */
+
+export const notificationTypeEnum = pgEnum("notification_type", [
+  "streak_reminder",
+  "new_content",
+  "quiz_result",
+  "ai_response",
+  "system",
+]);

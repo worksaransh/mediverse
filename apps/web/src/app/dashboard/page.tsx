@@ -200,4 +200,39 @@ export default async function DashboardPage() {
                   </li>
                 ))}
                 {(!aiProfile.weekly_goals || aiProfile.weekly_goals.length === 0) && (
-                  <li className="text
+                  <li className="text-sm text-slate-500 italic">No specific goals set.</li>
+                )}
+              </ul>
+            </Card>
+
+            {/* Recommended Resources */}
+            <Card className="border-[#3d4946] bg-[#171d1b]">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-[#86948f] mb-4">
+                📖 Recommended Resources
+              </h3>
+              <ul className="space-y-3" id="recommended-resources">
+                {aiProfile.recommended_resources && aiProfile.recommended_resources.map((resource: string, idx: number) => (
+                  <li key={idx} className="flex gap-3 text-sm text-slate-300 items-start">
+                    <span className="text-[#5cdbc2] font-bold mt-0.5">✔</span>
+                    <span>{resource}</span>
+                  </li>
+                ))}
+                {(!aiProfile.recommended_resources || aiProfile.recommended_resources.length === 0) && (
+                  <li className="text-sm text-slate-500 italic">No resources recommended.</li>
+                )}
+              </ul>
+            </Card>
+          </div>
+
+          {/* Recommended Discover Feed */}
+          <div className="mt-8 border-t border-[#3d4946]/40 pt-8">
+            <h4 className="font-semibold text-xs tracking-widest text-[#86948f] uppercase mb-6">
+              Recommended for you
+            </h4>
+            <DiscoverFeed />
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}

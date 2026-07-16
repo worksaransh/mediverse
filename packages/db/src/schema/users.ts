@@ -68,4 +68,12 @@ export const profiles = pgTable(
     onboardingCompleted: boolean("onboarding_completed").default(false).notNull(),
     aiProfile: jsonb("ai_profile"),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-    updatedAt: timestamp("updat
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .defaultNow()
+      .notNull()
+      .$onUpdate(() => new Date()),
+  },
+  (table) => ({
+    userIdIdx: uniqueIndex("idx_profiles_user_id").on(table.userId),
+  }),
+);

@@ -72,4 +72,8 @@ export const mcqAttempts = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => ({
-    userIdx: index("idx_mcq_attempts_user")
+    userIdx: index("idx_mcq_attempts_user").on(table.userId),
+    mcqIdx: index("idx_mcq_attempts_mcq").on(table.mcqId),
+    createdAtIdx: index("idx_mcq_attempts_created").on(table.createdAt),
+  }),
+);

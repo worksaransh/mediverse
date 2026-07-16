@@ -452,4 +452,88 @@ export async function generateMentorResponse(params: MentorResponseParams): Prom
 
   if (!apiKey || apiKey === "sk-ant-xxxxx") {
     // Attempt Gemini Fallback
-    const geminiAnswer = await callG
+    const geminiAnswer = await callGemini(`${contextBlock}\n\nQuery: "${params.prompt}"`, systemPrompt);
+    if (geminiAnswer) {
+      const citedContentIds: string[] = [];
+      const matches = geminiAnswer.match(/\[feed-item-\d+\]/g);
+      if (matches) {
+        matches.forEach((m) => {
+          const cleanedId = m.replace(/[[\]]/g, "");
+          if (!citedContentIds.includes(cleanedId)) {
+            citedContentIds.push(cleanedId);
+          }
+        });
+      }
+      return {
+        answer: geminiAnswer.startsWith("AI-generated: ") ? geminiAnswer : `AI-generated: ${geminiAnswer}`,
+        citedContentIds,
+        flagged: false,
+      };
+    }
+
+    // Default Mock Response Fallback
+    let mockAnswer = "AI-generated: ";
+    let citedContentIds: string[] = [];
+
+    if (params.intent === "research_query") {
+      mockAnswer += `Based on the latest literature [feed-item-3], breast neoplasms exhibit distinct HER2 overexpression profiles that guide therapeutic selections. We currently lack other relevant literature citations in our database for further extensions.`;
+      citedContentIds = ["feed-item-3"];
+    } else if (params.intent === "news_query") {
+      mockAnswer += `The Lancet has highlighted significant guidelines regarding clinical and surgical trials [feed-item-8], showing wound repair maturation dynamics.`;
+      citedContentIds = ["feed-item-8"];
+    } else if (params.intent === "study_plan") {
+      mockAnswer += `Since your target exam is ${targetYear}, let's focus on structured recall blocks. I recommend setting up daily MCQ practice sets, specifically targeting your onboarding focus area: ${weakSubjects}.`;
+    } else {
+      mockAnswer += `Let's break down this concept. Physiological mechanisms suggest that renal filtration rates are dependent on hydrostatic pressure gradients. I recommend reviewing glomerular lesions in renal pathology next.`;
+    }
+
+    return {
+      answer: mockAnswer,
+      citedContentIds,
+      flagged: false,
+    };
+  }
+
+  // Real LLM Call using Claude Sonnet/Haiku
+  try {
+    const anthropic = new Anthropic({ apiKey });
+    const response = await anthropic.messages.create({
+      model: "claude-3-5-sonnet-latest",
+      max_tokens: 1500,
+      system: systemPrompt,
+      messages: [
+        {
+          role: "user",
+          content: `${contextBlock}\n\nQuery: "${params.prompt}"`,
+        },
+      ],
+    });
+
+    const answer = response.content[0]?.type === "text" ? response.content[0].text : "No response content found.";
+    
+    // Parse cited_content_ids out of the text (e.g. looking for brackets [feed-item-X])
+    const citedContentIds: string[] = [];
+    const matches = answer.match(/\[feed-item-\d+\]/g);
+    if (matches) {
+      matches.forEach((m) => {
+        const cleanedId = m.replace(/[[\]]/g, "");
+        if (!citedContentIds.includes(cleanedId)) {
+          citedContentIds.push(cleanedId);
+        }
+      });
+    }
+
+    return {
+      answer,
+      citedContentIds,
+      flagged: false,
+    };
+  } catch (error: any) {
+    console.error("[AI Mentor] Error in generative call:", error);
+    return {
+      answer: "AI-generated: I encountered an error when communicating with the mentor service. Please try again.",
+      citedContentIds: [],
+      flagged: false,
+    };
+  }
+}

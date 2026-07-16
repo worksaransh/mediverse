@@ -60,4 +60,7 @@ export async function getSession() {
   return await decrypt(session);
 }
 
-export async funct
+export async function deleteSession() {
+  const cookieStore = await cookies();
+  cookieStore.delete("mediverse_session");
+}

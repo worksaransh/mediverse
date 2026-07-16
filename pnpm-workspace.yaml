@@ -5,5 +5,8 @@ allowBuilds:
   esbuild: true
   msgpackr-extract: true
   sharp: true
-  sqlite3: set this to true or false
-  unrs-resolver: set this to true or false
+  sqlite3: true
+  unrs-resolver: true
+
+overrides:
+  ioredis: "5.4.1"

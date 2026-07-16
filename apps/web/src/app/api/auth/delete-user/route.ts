@@ -42,4 +42,9 @@ export async function POST(req: Request) {
     });
   } catch (error: any) {
     console.error("[DPDP Erasure API] Error processing delete request:", error);
-    return NextResponse.
+    return NextResponse.json(
+      { error: "Internal server error occurred while processing deletion" },
+      { status: 500 }
+    );
+  }
+}

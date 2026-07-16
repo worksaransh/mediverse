@@ -420,4 +420,6 @@ export default function MCQPracticePage() {
           )}
         </div>
       </footer>
-    </di
+    </div>
+  );
+}
