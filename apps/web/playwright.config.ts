@@ -12,7 +12,7 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: "pnpm run dev",
+      command: "npx next dev --port 3000 --hostname 127.0.0.1",
       url: "http://127.0.0.1:3000",
       reuseExistingServer: true,
       timeout: 120000,
@@ -21,7 +21,8 @@ export default defineConfig({
       },
     },
     {
-      command: "pnpm --filter @mediverse/admin dev",
+      command: "npx next dev --port 3001 --hostname 127.0.0.1",
+      cwd: "../admin",
       url: "http://127.0.0.1:3001",
       reuseExistingServer: true,
       timeout: 120000,

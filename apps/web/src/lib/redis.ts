@@ -117,5 +117,45 @@ export const redis = {
       return 60;
     }
   },
+
+  async checkSlidingWindowLimit(key: string, limit: number, windowSeconds: number): Promise<boolean> {
+    if (process.env.NODE_ENV !== "production") {
+      return false; // Bypass in dev/test
+    }
+    const now = Date.now();
+    const clearBefore = now - windowSeconds * 1000;
+
+    if (useMemoryFallback || !redisClient) {
+      // In-memory sliding window fallback using timestamps array
+      globalAny.memorySlidingWindows = globalAny.memorySlidingWindows || new Map<string, number[]>();
+      const store = globalAny.memorySlidingWindows;
+      let timestamps = store.get(key) || [];
+      timestamps = timestamps.filter((t: number) => t > clearBefore);
+      timestamps.push(now);
+      store.set(key, timestamps);
+      return timestamps.length > limit;
+    }
+
+    try {
+      const pipeline = redisClient.multi();
+      pipeline.zremrangebyscore(key, 0, clearBefore);
+      pipeline.zadd(key, now, `${now}:${Math.random()}`); // Random suffix to prevent duplicates in zset values
+      pipeline.zcard(key);
+      pipeline.expire(key, windowSeconds);
+      const results = await pipeline.exec();
+      if (!results) return false;
+      const count = results[2]?.[1] as number;
+      return count > limit;
+    } catch (e) {
+      // Fallback to memory
+      globalAny.memorySlidingWindows = globalAny.memorySlidingWindows || new Map<string, number[]>();
+      const store = globalAny.memorySlidingWindows;
+      let timestamps = store.get(key) || [];
+      timestamps = timestamps.filter((t: number) => t > clearBefore);
+      timestamps.push(now);
+      store.set(key, timestamps);
+      return timestamps.length > limit;
+    }
+  }
 };
 

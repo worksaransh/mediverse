@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createDb, contentItems, aiMessages } from "@mediverse/db";
+import { createDb, contentItems, aiMessages, platformSettings } from "@mediverse/db";
 import { eq } from "drizzle-orm";
 import IORedis from "ioredis";
 import { verifyAdminSession } from "@/lib/auth";
@@ -126,6 +126,26 @@ export async function POST(req: Request) {
           flagged: false,
         })
         .where(eq(aiMessages.id, id));
+
+      return NextResponse.json({ success: true });
+    }
+
+    if (action === "update_settings") {
+      const { settingsKey, settingsValue } = await req.json();
+      if (!settingsKey || !settingsValue) {
+        return NextResponse.json({ error: "Missing key or value" }, { status: 400 });
+      }
+
+      await db
+        .insert(platformSettings)
+        .values({
+          key: settingsKey,
+          value: settingsValue,
+        })
+        .onConflictDoUpdate({
+          target: platformSettings.key,
+          set: { value: settingsValue },
+        });
 
       return NextResponse.json({ success: true });
     }

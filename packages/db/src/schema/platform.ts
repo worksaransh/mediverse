@@ -102,3 +102,24 @@ export const waitlist = pgTable(
     createdIdx: index("idx_waitlist_created").on(table.createdAt),
   }),
 );
+
+/* ═══════════════════════════════════════════
+   PLATFORM_SETTINGS — Dynamic configurations
+   ═══════════════════════════════════════════ */
+
+export const platformSettings = pgTable(
+  "platform_settings",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    key: varchar("key", { length: 100 }).unique().notNull(),
+    value: jsonb("value").notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .defaultNow()
+      .notNull()
+      .$onUpdate(() => new Date()),
+  },
+  (table) => ({
+    keyIdx: index("idx_platform_settings_key").on(table.key),
+  }),
+);
+

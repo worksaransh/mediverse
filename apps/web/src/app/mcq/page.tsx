@@ -312,7 +312,7 @@ export default function MCQPracticePage() {
 
             {/* Options container */}
             <div className="space-y-3" id="options-container">
-              {currentQuestion.options.map((opt) => {
+              {(typeof currentQuestion.options === "string" ? JSON.parse(currentQuestion.options) : currentQuestion.options).map((opt: any) => {
                 const isSelected = selectedKey === opt.key;
                 const isCorrect = attemptResult?.correctOption === opt.key;
                 const isIncorrectSelection = isSelected && !attemptResult?.isCorrect;

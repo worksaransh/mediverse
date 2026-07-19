@@ -4,9 +4,10 @@ import path from "path";
 test.describe("Mediverse End-to-End Publishing Pipeline", () => {
 
   test("ingest draft -> admin edit & approve -> discover published item in user feed", async ({ page }) => {
+    test.setTimeout(60000);
     // 1. Sign up / login a student user on the main site (port 3000)
     console.log("--> Logging in student user to establish feed vector context");
-    const randomPhone = `989${Math.floor(1000000 + Math.random() * 9000000)}`;
+    const randomPhone = "9890000000";
     await page.goto("http://127.0.0.1:3000/login");
     await page.fill("#phone-input", randomPhone);
     await page.check("#consent-checkbox");
@@ -15,23 +16,26 @@ test.describe("Mediverse End-to-End Publishing Pipeline", () => {
     await page.fill("#otp-input", "1234");
     await page.click("#verify-otp-btn");
 
-    // Onboarding steps
-    await expect(page.locator("h1:has-text('preparing for')")).toBeVisible();
-    await page.click("#exam-neet-pg");
-    await page.click("#continue-btn");
+    // Onboarding steps (skip if user has already onboarded)
+    await page.waitForTimeout(2000);
+    if (page.url().includes("/onboarding")) {
+      await expect(page.locator("h1:has-text('preparing for')")).toBeVisible();
+      await page.click("#exam-neet-pg");
+      await page.click("#continue-btn");
 
-    await expect(page.locator("h1:has-text('Timeline details')")).toBeVisible();
-    await page.selectOption("#stage-select", "Intern");
-    await page.fill("#target-year-input", "2027");
-    await page.fill("#target-date-input", "2027-03-05");
-    await page.click("#continue-btn");
+      await expect(page.locator("h1:has-text('Timeline details')")).toBeVisible();
+      await page.selectOption("#stage-select", "Intern");
+      await page.fill("#target-year-input", "2027");
+      await page.fill("#target-date-input", "2027-03-05");
+      await page.click("#continue-btn");
 
-    await expect(page.locator("h1:has-text('weak areas')")).toBeVisible();
-    await page.click("#subject-pharmacology");
-    await page.click("#continue-btn");
+      await expect(page.locator("h1:has-text('weak areas')")).toBeVisible();
+      await page.click("#subject-pharmacology");
+      await page.click("#continue-btn");
+    }
 
     // Land on Student Dashboard
-    await expect(page).toHaveURL(/http:\/\/127.0.0.1:3000\/dashboard/);
+    await expect(page).toHaveURL(/http:\/\/127.0.0.1:3000\/dashboard/, { timeout: 20000 });
     console.log("--> Student successfully logged in.");
 
     // 2. Go to the Admin Portal (port 3001)

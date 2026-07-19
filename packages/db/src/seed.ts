@@ -7,6 +7,7 @@
 
 import { sql } from "drizzle-orm";
 import { createDb } from "./client";
+import crypto from "crypto";
 import {
   users,
   profiles,
@@ -51,6 +52,11 @@ async function seed() {
 
   /* ─── Users ─────────────────────────────── */
 
+  // Hash helper for seeding password hashes (password is 'password123')
+  const salt = "seeded_salt_val_12345";
+  const hash = crypto.scryptSync("password123", salt, 64).toString("hex");
+  const seededPasswordHash = `${salt}:${hash}`;
+
   const insertedUsers = await db
     .insert(users)
     .values([
@@ -58,6 +64,7 @@ async function seed() {
         name: "Dr. Ananya Sharma",
         email: "ananya@test.mediverse.in",
         phone: "+919876543210",
+        passwordHash: seededPasswordHash,
         role: "student",
         emailVerified: true,
         phoneVerified: true,
@@ -66,6 +73,7 @@ async function seed() {
         name: "Rahul Verma",
         email: "rahul@test.mediverse.in",
         phone: "+919876543211",
+        passwordHash: seededPasswordHash,
         role: "student",
         emailVerified: true,
         phoneVerified: false,
@@ -74,6 +82,7 @@ async function seed() {
         name: "Priya Patel",
         email: "priya@test.mediverse.in",
         phone: "+919876543212",
+        passwordHash: seededPasswordHash,
         role: "student",
         emailVerified: false,
         phoneVerified: true,
@@ -82,6 +91,7 @@ async function seed() {
         name: "Amit Kumar",
         email: "amit@test.mediverse.in",
         phone: "+919876543213",
+        passwordHash: seededPasswordHash,
         role: "content_creator",
         emailVerified: true,
         phoneVerified: true,
@@ -90,6 +100,7 @@ async function seed() {
         name: "Neha Gupta",
         email: "neha@test.mediverse.in",
         phone: "+919876543214",
+        passwordHash: seededPasswordHash,
         role: "admin",
         emailVerified: true,
         phoneVerified: true,
@@ -192,6 +203,84 @@ async function seed() {
         status: "published",
         publishedAt: new Date(),
       },
+      {
+        type: "video",
+        title: "Mechanism of Action: SGLT2 Inhibitors",
+        body: "Detailed review of renal glucose transport pathways.",
+        summary: "Understanding renal glucose reabsorption pathways and cardiovascular benefits in diabetic patients.",
+        sourceUrl: "https://youtube.com/example-sglt2",
+        sourceId: ytSrc!.id,
+        audienceTags: ["pg_prep"],
+        specialtyTags: ["Pharmacology"],
+        topicTags: ["SGLT2", "Diabetes"],
+        status: "published",
+        publishedAt: new Date(),
+      },
+      {
+        type: "article",
+        title: "Adverse Effects of Beta-Blockers",
+        body: "Reviewing bronchoconstriction, bradycardia, and hypoglycemia mask.",
+        summary: "High-yield review of autonomic pharmacology side effects.",
+        sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/example-beta",
+        sourceId: pubmedSrc!.id,
+        audienceTags: ["pg_prep"],
+        specialtyTags: ["Pharmacology"],
+        topicTags: ["Beta-Blockers", "Autonomics"],
+        status: "published",
+        publishedAt: new Date(),
+      },
+      {
+        type: "article",
+        title: "Neoplastic Transformations in Breast Tissue",
+        body: "Examines genetic alterations, HER2 overexpression, and histological features.",
+        summary: "Histopathology overview of ductal and lobular carcinomas.",
+        sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/example-breast",
+        sourceId: pubmedSrc!.id,
+        audienceTags: ["pg_prep"],
+        specialtyTags: ["Pathology"],
+        topicTags: ["Breast Cancer", "Neoplasia"],
+        status: "published",
+        publishedAt: new Date(),
+      },
+      {
+        type: "video",
+        title: "Pathological Presentation of Acute Glomerulonephritis",
+        body: "Review of subepithelial humps, post-streptococcal renal lesions, and microscopy.",
+        summary: "Renal pathology masterclass for PG aspirants.",
+        sourceUrl: "https://youtube.com/example-renal",
+        sourceId: ytSrc!.id,
+        audienceTags: ["pg_prep"],
+        specialtyTags: ["Pathology"],
+        topicTags: ["Glomerulonephritis", "Renal"],
+        status: "published",
+        publishedAt: new Date(),
+      },
+      {
+        type: "video",
+        title: "Laparoscopic Cholecystectomy Techniques",
+        body: "Demonstrates hepatobiliary triangle identification and clip placement.",
+        summary: "Step-by-step surgical techniques for gallbladder excision.",
+        sourceUrl: "https://youtube.com/example-chole",
+        sourceId: ytSrc!.id,
+        audienceTags: ["pg_prep"],
+        specialtyTags: ["General Surgery"],
+        topicTags: ["Laparoscopy", "Cholecystectomy"],
+        status: "published",
+        publishedAt: new Date(),
+      },
+      {
+        type: "article",
+        title: "Principles of Wound Healing and Closures",
+        body: "First vs second intention, collagen synthesis timelines, and suture select guides.",
+        summary: "Clinical review of surgical wound repair pathways.",
+        sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/example-wound",
+        sourceId: pubmedSrc!.id,
+        audienceTags: ["pg_prep"],
+        specialtyTags: ["General Surgery"],
+        topicTags: ["Wound Healing", "Suturing"],
+        status: "published",
+        publishedAt: new Date(),
+      }
     ])
     .returning();
 
@@ -231,6 +320,126 @@ async function seed() {
       topicTags: ["auscultation", "heart_sounds", "valvular_disease"],
       verified: true,
     },
+    {
+      question: "Which of the following describes the mechanism of action of SGLT2 inhibitors in managing type 2 diabetes?",
+      options: JSON.stringify([
+        { key: "A", text: "Stimulation of insulin release from pancreatic beta cells" },
+        { key: "B", text: "Inhibition of glucose absorption in the small intestine" },
+        { key: "C", text: "Inhibition of sodium-glucose cotransporter 2 in the renal proximal tubules, leading to glucosuria" },
+        { key: "D", text: "Decreasing hepatic glucose production through AMPK activation" }
+      ]),
+      correctOption: "C",
+      explanation: "SGLT2 inhibitors (e.g., empagliflozin, dapagliflozin) block the sodium-glucose cotransporter 2 in the renal proximal convoluted tubule, which prevents glucose reabsorption and promotes urinary excretion.",
+      difficulty: 2,
+      subject: "Pharmacology",
+      topicTags: ["Pharmacology", "SGLT2", "Diabetes"],
+      verified: true,
+    },
+    {
+      question: "A patient on beta-blockers presents with hypoglycemia. Which symptom of hypoglycemia would be masked by this medication?",
+      options: JSON.stringify([
+        { key: "A", text: "Sweating (diaphoresis)" },
+        { key: "B", text: "Tachycardia (heart rate elevation)" },
+        { key: "C", text: "Confusion" },
+        { key: "D", text: "Extreme hunger" }
+      ]),
+      correctOption: "B",
+      explanation: "Beta-blockers block adrenergic receptors and thus mask the sympathetic warning signs of hypoglycemia, most notably tachycardia and palpitations. Sweating is mediated by cholinergic pathway and is not masked.",
+      difficulty: 3,
+      subject: "Pharmacology",
+      topicTags: ["Pharmacology", "Beta-Blockers", "Autonomics"],
+      verified: true,
+    },
+    {
+      question: "Histopathology of a breast biopsy shows neoplastic cells filling the ducts without invading the basement membrane. What is the diagnosis?",
+      options: JSON.stringify([
+        { key: "A", text: "Invasive ductal carcinoma" },
+        { key: "B", text: "Lobular carcinoma in situ" },
+        { key: "C", text: "Ductal carcinoma in situ (DCIS)" },
+        { key: "D", text: "Fibroadenoma" }
+      ]),
+      correctOption: "C",
+      explanation: "Ductal Carcinoma In Situ (DCIS) is characterized by neoplastic cells filling the lumens of ducts without invasion beyond the basement membrane.",
+      difficulty: 3,
+      subject: "Pathology",
+      topicTags: ["Pathology", "Breast Cancer", "Neoplasia"],
+      verified: true,
+    },
+    {
+      question: "Which histological finding is characteristic of Post-Streptococcal Acute Glomerulonephritis (PSGN) under electron microscopy?",
+      options: JSON.stringify([
+        { key: "A", text: "Subendothelial deposits" },
+        { key: "B", text: "Subepithelial humps" },
+        { key: "C", text: "Linear IgG deposition" },
+        { key: "D", text: "Mesangial IgA deposits" }
+      ]),
+      correctOption: "B",
+      explanation: "Electron microscopy in PSGN classicially reveals subepithelial immune complex deposits, described as 'humps' on the epithelial side of the basement membrane.",
+      difficulty: 4,
+      subject: "Pathology",
+      topicTags: ["Pathology", "Glomerulonephritis", "Renal"],
+      verified: true,
+    },
+    {
+      question: "A patient presents with 'claw hand' deformity after an upper extremity trauma. Which part of the brachial plexus is most likely injured?",
+      options: JSON.stringify([
+        { key: "A", text: "Upper trunk" },
+        { key: "B", text: "Lateral cord" },
+        { key: "C", text: "Lower trunk (C8-T1 fibers)" },
+        { key: "D", text: "Posterior cord" }
+      ]),
+      correctOption: "C",
+      explanation: "Injury to the lower trunk (C8-T1) of the brachial plexus (e.g., Klumpke's palsy) affects the ulnar nerve fibers, leading to a claw hand deformity.",
+      difficulty: 3,
+      subject: "Anatomy",
+      topicTags: ["Anatomy", "Brachial Plexus", "Neuroanatomy"],
+      verified: true,
+    },
+    {
+      question: "Which artery connects the anterior cerebral circulation to the posterior cerebral circulation in the Circle of Willis?",
+      options: JSON.stringify([
+        { key: "A", text: "Anterior communicating artery" },
+        { key: "B", text: "Posterior communicating artery" },
+        { key: "C", text: "Middle cerebral artery" },
+        { key: "D", text: "Basilar artery" }
+      ]),
+      correctOption: "B",
+      explanation: "The posterior communicating artery (PCoA) connects the internal carotid system (anterior) with the posterior cerebral artery (posterior circulation).",
+      difficulty: 2,
+      subject: "Anatomy",
+      topicTags: ["Anatomy", "Circle of Willis", "Anatomy"],
+      verified: true,
+    },
+    {
+      question: "During a laparoscopic cholecystectomy, which boundaries define the Calot's (hepatobiliary) triangle?",
+      options: JSON.stringify([
+        { key: "A", text: "Cystic duct, common hepatic duct, and inferior border of the liver" },
+        { key: "B", text: "Common bile duct, cystic artery, and portal vein" },
+        { key: "C", text: "Cystic duct, common bile duct, and duodenum" },
+        { key: "D", text: "Right hepatic artery, left hepatic artery, and gallbladder bed" }
+      ]),
+      correctOption: "A",
+      explanation: "Calot's triangle boundaries are: the cystic duct inferiorly, the common hepatic duct medially, and the inferior edge of the liver (or cystic artery) superiorly.",
+      difficulty: 3,
+      subject: "General Surgery",
+      topicTags: ["General Surgery", "Laparoscopy", "Cholecystectomy"],
+      verified: true,
+    },
+    {
+      question: "Which phase of wound healing is characterized by collagen deposition and peak tensile strength acquisition?",
+      options: JSON.stringify([
+        { key: "A", text: "Inflammatory phase" },
+        { key: "B", text: "Hemostasis phase" },
+        { key: "C", text: "Proliferative/Granulation phase" },
+        { key: "D", text: "Maturation/Remodeling phase" }
+      ]),
+      correctOption: "D",
+      explanation: "During the maturation/remodeling phase (starting from 3 weeks and continuing for months), type III collagen is replaced by type I collagen, and wound tensile strength peaks.",
+      difficulty: 3,
+      subject: "General Surgery",
+      topicTags: ["General Surgery", "Wound Healing", "Suturing"],
+      verified: true,
+    }
   ]);
 
   console.log(`  ✅ 2 MCQs inserted`);

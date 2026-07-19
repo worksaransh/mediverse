@@ -51,11 +51,35 @@ interface DashboardData {
     flaggedCount: number;
   };
   ingestionSources: IngestionSource[];
+  communityLinks?: {
+    whatsappChannel: string;
+    whatsappCommunity: string;
+    telegramChannel: string;
+    telegramGroup: string;
+    discord: string;
+    instagram: string;
+    linkedin: string;
+    youtube: string;
+  };
 }
 
 export default function AdminDashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Dynamic settings inputs
+  const [links, setLinks] = useState({
+    whatsappChannel: "",
+    whatsappCommunity: "",
+    telegramChannel: "",
+    telegramGroup: "",
+    discord: "",
+    instagram: "",
+    linkedin: "",
+    youtube: ""
+  });
+  const [updatingLinks, setUpdatingLinks] = useState(false);
+  const [linksMessage, setLinksMessage] = useState("");
 
   // Ingestion Form State
   const [ingestTitle, setIngestTitle] = useState("");
@@ -74,6 +98,9 @@ export default function AdminDashboardPage() {
       if (res.ok) {
         const payload = await res.json();
         setData(payload);
+        if (payload.communityLinks) {
+          setLinks(payload.communityLinks);
+        }
       }
     } catch (e) {
       console.error("Error loading admin parameters:", e);
@@ -85,6 +112,33 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     loadDashboardData();
   }, []);
+
+  async function handleSaveLinks(e: React.FormEvent) {
+    e.preventDefault();
+    setUpdatingLinks(true);
+    setLinksMessage("");
+    try {
+      const res = await fetch("/api/content/review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "update_settings",
+          settingsKey: "community_links",
+          settingsValue: links
+        }),
+      });
+      if (res.ok) {
+        setLinksMessage("Settings saved successfully!");
+        loadDashboardData();
+      } else {
+        setLinksMessage("Failed to save settings.");
+      }
+    } catch (err) {
+      setLinksMessage("Error saving settings.");
+    } finally {
+      setUpdatingLinks(false);
+    }
+  }
 
   // Handle Operations
   async function handleAction(action: string, id?: string, extraData?: any) {
@@ -442,6 +496,97 @@ export default function AdminDashboardPage() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Dynamic Community Links Settings */}
+            <div className="p-6 rounded-2xl bg-[#131916] border border-[#3d4946] space-y-4">
+              <h2 className="text-md font-bold text-white flex items-center gap-2">
+                ⚙️ Dynamic Community Links
+              </h2>
+              {linksMessage && (
+                <div className={`p-3 rounded-xl text-xs text-center border ${
+                  linksMessage.includes("successfully") 
+                    ? "bg-emerald-500/10 border-emerald-500/20 text-[#5cdbc2]"
+                    : "bg-red-500/10 border-red-500/20 text-red-400"
+                }`}>
+                  {linksMessage}
+                </div>
+              )}
+              <form onSubmit={handleSaveLinks} className="space-y-3">
+                <div>
+                  <label className="block text-[10px] font-semibold text-[#bccac4] uppercase tracking-wider mb-1">
+                    WhatsApp Channel
+                  </label>
+                  <input
+                    id="admin-setting-whatsapp-channel"
+                    type="url"
+                    value={links.whatsappChannel}
+                    onChange={(e) => setLinks({ ...links, whatsappChannel: e.target.value })}
+                    className="w-full h-8 px-3 bg-[#0c100e] border border-[#3d4946] rounded-lg text-xs text-white placeholder-[#86948f] focus:outline-none focus:border-[#5cdbc2]"
+                    placeholder="https://whatsapp.com/channel/..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-[#bccac4] uppercase tracking-wider mb-1">
+                    WhatsApp Community
+                  </label>
+                  <input
+                    id="admin-setting-whatsapp-community"
+                    type="url"
+                    value={links.whatsappCommunity}
+                    onChange={(e) => setLinks({ ...links, whatsappCommunity: e.target.value })}
+                    className="w-full h-8 px-3 bg-[#0c100e] border border-[#3d4946] rounded-lg text-xs text-white placeholder-[#86948f] focus:outline-none focus:border-[#5cdbc2]"
+                    placeholder="https://chat.whatsapp.com/..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-[#bccac4] uppercase tracking-wider mb-1">
+                    Telegram Channel
+                  </label>
+                  <input
+                    id="admin-setting-telegram-channel"
+                    type="url"
+                    value={links.telegramChannel}
+                    onChange={(e) => setLinks({ ...links, telegramChannel: e.target.value })}
+                    className="w-full h-8 px-3 bg-[#0c100e] border border-[#3d4946] rounded-lg text-xs text-white placeholder-[#86948f] focus:outline-none focus:border-[#5cdbc2]"
+                    placeholder="https://t.me/..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-[#bccac4] uppercase tracking-wider mb-1">
+                    Telegram Group
+                  </label>
+                  <input
+                    id="admin-setting-telegram-group"
+                    type="url"
+                    value={links.telegramGroup}
+                    onChange={(e) => setLinks({ ...links, telegramGroup: e.target.value })}
+                    className="w-full h-8 px-3 bg-[#0c100e] border border-[#3d4946] rounded-lg text-xs text-white placeholder-[#86948f] focus:outline-none focus:border-[#5cdbc2]"
+                    placeholder="https://t.me/..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-[#bccac4] uppercase tracking-wider mb-1">
+                    Discord Invite
+                  </label>
+                  <input
+                    id="admin-setting-discord"
+                    type="url"
+                    value={links.discord}
+                    onChange={(e) => setLinks({ ...links, discord: e.target.value })}
+                    className="w-full h-8 px-3 bg-[#0c100e] border border-[#3d4946] rounded-lg text-xs text-white placeholder-[#86948f] focus:outline-none focus:border-[#5cdbc2]"
+                    placeholder="https://discord.gg/..."
+                  />
+                </div>
+                <button
+                  id="admin-save-settings-btn"
+                  type="submit"
+                  disabled={updatingLinks}
+                  className="w-full h-9 bg-[#5cdbc2] hover:bg-[#5cdbc2]/90 disabled:bg-[#5cdbc2]/30 text-[#00201a] font-semibold text-xs rounded-lg flex items-center justify-center transition-all"
+                >
+                  {updatingLinks ? "Saving..." : "Save Community Links"}
+                </button>
+              </form>
             </div>
 
           </div>

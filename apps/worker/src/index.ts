@@ -149,6 +149,12 @@ try {
           return handleAIMentorJob(job);
         case "daily-digest":
           return composeDailyDigest(job.data.userId, job.data.overrideHour);
+        case "db-partition-rotation":
+          await runPartitionJob();
+          return { success: true };
+        case "db-retention-cleanup":
+          await runRetentionAndRollupJob();
+          return { success: true };
         default:
           console.warn(`[Worker] Unknown job name: ${job.name}`);
           throw new Error(`Unknown job name: ${job.name}`);
@@ -166,6 +172,15 @@ try {
   });
 
   taskQueue = new Queue("mediverse-tasks", { connection });
+
+  // Register robust database partition and cleanup cron jobs
+  taskQueue.add("db-partition-rotation", {}, {
+    repeat: { pattern: "0 0 1 * *" } // Every 1st of the month at midnight
+  }).catch(err => console.warn("[Worker] Failed to queue db-partition-rotation:", err.message));
+
+  taskQueue.add("db-retention-cleanup", {}, {
+    repeat: { pattern: "0 2 * * *" } // Daily at 2:00 AM
+  }).catch(err => console.warn("[Worker] Failed to queue db-retention-cleanup:", err.message));
 } catch (e: any) {
   console.warn("[Worker] BullMQ / Redis failed to initialize. Relying solely on native backup scheduler:", e.message);
 }

@@ -76,8 +76,8 @@ export async function POST(req: Request) {
 
       // Filter/rank items containing relevant clinical keywords
       const matched = allItems.filter((item: any) => {
-        const title = item.title.toLowerCase();
-        const body = item.body.toLowerCase();
+        const title = (item.title || "").toLowerCase();
+        const body = (item.body || "").toLowerCase();
         const tags = (item.topicTags || []).map((t: string) => t.toLowerCase());
         const query = prompt.toLowerCase();
 

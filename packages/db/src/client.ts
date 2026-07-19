@@ -5,7 +5,21 @@ import fs from "fs";
 import path from "path";
 
 const globalAny = globalThis as any;
-const dbFilePath = path.resolve(process.cwd(), "../mock-db.json");
+
+function getWorkspaceRoot(): string {
+  let current = process.cwd();
+  for (let i = 0; i < 5; i++) {
+    if (fs.existsSync(path.join(current, "pnpm-workspace.yaml"))) {
+      return current;
+    }
+    const parent = path.dirname(current);
+    if (parent === current) break;
+    current = parent;
+  }
+  return process.cwd();
+}
+
+const dbFilePath = path.join(getWorkspaceRoot(), "mock-db.json");
 
 function readDbFile() {
   try {
@@ -32,6 +46,14 @@ let state = globalAny.mockDbState;
 const fileState = readDbFile();
 if (fileState) {
   state = fileState;
+  if (!state.users) state.users = [];
+  if (!state.profiles) state.profiles = [];
+  if (!state.streaks) state.streaks = [];
+  if (!state.colleges) state.colleges = [];
+  if (!state.sources) state.sources = [];
+  if (!state.contentItems) state.contentItems = [];
+  if (!state.mcqs) state.mcqs = [];
+  if (!state.subscriptions) state.subscriptions = [];
   globalAny.mockDbState = state;
 } else {
   state = {

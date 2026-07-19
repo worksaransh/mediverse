@@ -110,7 +110,7 @@ export default async function TopicPage({ params }: PageProps) {
                   
                   {/* Options List */}
                   <div className="grid gap-2">
-                    {q.options?.map((opt: any) => (
+                    {(typeof q.options === "string" ? JSON.parse(q.options) : q.options)?.map((opt: any) => (
                       <div key={opt.key} className="px-4 py-2.5 bg-[#0f1513] border border-[#3d4946] rounded-xl text-xs flex gap-2">
                         <span className="font-bold text-[#5cdbc2]">{opt.key}.</span>
                         <span>{opt.text}</span>

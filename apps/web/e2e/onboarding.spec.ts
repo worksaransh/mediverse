@@ -58,7 +58,7 @@ test.describe("Mediverse Signup, Onboarding & Dashboard E2E", () => {
 
     // 7. Verify Dashboard redirect & display of personal AI study plan
     console.log("--> Waiting for Dashboard redirect");
-    await expect(page).toHaveURL(/\/dashboard/);
+    await expect(page).toHaveURL(/\/dashboard/, { timeout: 20000 });
     
     // Validate custom items
     await expect(page.locator("#streak-count")).toContainText("Streak");

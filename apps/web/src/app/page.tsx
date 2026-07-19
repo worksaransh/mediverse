@@ -12,6 +12,26 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
+  // Dynamic community settings state
+  const [links, setLinks] = useState({
+    whatsappChannel: "https://wa.me/mock",
+    whatsappCommunity: "https://wa.me/mock",
+    telegramChannel: "https://t.me/mock",
+    telegramGroup: "https://t.me/mock",
+    discord: "https://discord.gg/mock"
+  });
+
+  React.useEffect(() => {
+    fetch("/api/platform/settings")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.links) {
+          setLinks(data.links);
+        }
+      })
+      .catch(err => console.error("Error loading community links:", err));
+  }, []);
+
   const handleWaitlistSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes("@")) {
@@ -292,7 +312,8 @@ export default function Home() {
                   {/* External Community Links */}
                   <div className="flex gap-4 pt-2">
                     <a
-                      href="https://wa.me/mock"
+                      id="dynamic-whatsapp-link"
+                      href={links.whatsappCommunity || links.whatsappChannel}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 text-xs font-bold text-[#bccac4] hover:text-[#5cdbc2] transition-all"
@@ -301,7 +322,8 @@ export default function Home() {
                       WhatsApp Group
                     </a>
                     <a
-                      href="https://t.me/mock"
+                      id="dynamic-telegram-link"
+                      href={links.telegramChannel || links.telegramGroup}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 text-xs font-bold text-[#bccac4] hover:text-[#5cdbc2] transition-all"
